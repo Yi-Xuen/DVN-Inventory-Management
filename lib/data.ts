@@ -1,5 +1,8 @@
 export type Status = "worksheet" | "confirmed" | "proposal" | "used";
 
+export const LIKELIHOODS = ["Unlikely", "Likely", "Very likely"] as const;
+export type Likelihood = (typeof LIKELIHOODS)[number];
+
 export type Roll = { code: string; left: number; received: number; month: string; short?: boolean };
 
 export type Job = {
@@ -12,6 +15,7 @@ export type Job = {
   handover: string | null; // "Dec 2026"
   wsNo?: number;
   rooms?: { ref: string; name: string; m: number }[];
+  likelihood?: Likelihood; // proposals only: how likely the customer is to confirm
   sewing?: "Sewing in progress" | "Queued for sewing";
   completed?: string;
   rolls?: string[];
@@ -54,10 +58,10 @@ export const SEED_JOBS: Job[] = [
   { id: "c1", status: "confirmed", customer: "Ms Ooi", location: "Gurney", metres: 12, by: "Jason", handover: "Jan 2027", meta: [["Confirmed", "10 Nov 2026"]], log: ["10 Nov 2026 · Jason confirmed"] },
   { id: "c2", status: "confirmed", customer: "Dr Rajan", location: "Batu Ferringhi", metres: 8, by: "Mei Ling", handover: "Feb 2027", meta: [["Confirmed", "11 Nov 2026"]], log: ["11 Nov 2026 · Mei Ling confirmed"] },
   { id: "c3", status: "confirmed", customer: "Mdm Khoo", location: "Air Itam", metres: 5, by: "Mei Ling", handover: "Feb 2027", meta: [["Confirmed", "12 Nov 2026"]], log: ["12 Nov 2026 · Mei Ling confirmed"] },
-  { id: "p1", status: "proposal", customer: "Mr Chew", location: "Jelutong", metres: 15, by: "Jason", handover: "Feb 2027", meta: [["Quoted", "3 Nov 2026"]], log: ["3 Nov 2026 · Jason quoted"] },
-  { id: "p2", status: "proposal", customer: "Mrs Lee", location: "Pulau Tikus", metres: 10, by: "Mei Ling", handover: null, meta: [["Quoted", "5 Nov 2026"]], log: ["5 Nov 2026 · Mei Ling quoted"] },
-  { id: "p3", status: "proposal", customer: "Mr Azman", location: "Balik Pulau", metres: 9, by: "Jason", handover: "Mar 2027", meta: [["Quoted", "7 Nov 2026"]], log: ["7 Nov 2026 · Jason quoted"] },
-  { id: "p4", status: "proposal", customer: "Ms Yeoh", location: "Georgetown", metres: 6, by: "Mei Ling", handover: null, meta: [["Quoted", "8 Nov 2026"]], log: ["8 Nov 2026 · Mei Ling quoted"] },
+  { id: "p1", status: "proposal", likelihood: "Very likely", customer: "Mr Chew", location: "Jelutong", metres: 15, by: "Jason", handover: "Feb 2027", meta: [["Quoted", "3 Nov 2026"]], log: ["3 Nov 2026 · Jason quoted"] },
+  { id: "p2", status: "proposal", likelihood: "Likely", customer: "Mrs Lee", location: "Pulau Tikus", metres: 10, by: "Mei Ling", handover: null, meta: [["Quoted", "5 Nov 2026"]], log: ["5 Nov 2026 · Mei Ling quoted"] },
+  { id: "p3", status: "proposal", likelihood: "Likely", customer: "Mr Azman", location: "Balik Pulau", metres: 9, by: "Jason", handover: "Mar 2027", meta: [["Quoted", "7 Nov 2026"]], log: ["7 Nov 2026 · Jason quoted"] },
+  { id: "p4", status: "proposal", likelihood: "Unlikely", customer: "Ms Yeoh", location: "Georgetown", metres: 6, by: "Mei Ling", handover: null, meta: [["Quoted", "8 Nov 2026"]], log: ["8 Nov 2026 · Mei Ling quoted"] },
   { id: "u1", status: "used", customer: "Mr Goh", location: "Tanjung Tokong", metres: 30, by: "Jason", handover: null, wsNo: 1031, completed: "30 Oct 2026", rolls: ["2608-A", "2609-A"], log: ["30 Oct 2026 · Factory completed the worksheet"] },
   { id: "u2", status: "used", customer: "Mrs Saw", location: "Sungai Ara", metres: 22, by: "Mei Ling", handover: null, wsNo: 1027, completed: "21 Oct 2026", rolls: ["2609-A", "2609-B"], log: ["21 Oct 2026 · Factory completed the worksheet"] },
   { id: "u3", status: "used", customer: "Ms Lau", location: "Bukit Jambul", metres: 16, by: "Jason", handover: null, wsNo: 1019, completed: "9 Oct 2026", rolls: ["2608-A"], log: ["9 Oct 2026 · Factory completed the worksheet"] },

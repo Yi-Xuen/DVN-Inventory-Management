@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FABRIC, Job, ROLLS, RECEIVED_TOTAL, STATUS_LABEL, Status } from "@/lib/data";
-import { ON_HAND, StoreProvider, fmt, useStore } from "@/lib/store";
+import { ON_HAND, StoreProvider, fmt, proposalLabel, useStore } from "@/lib/store";
 import { CalcSheet, ReserveSheet } from "./Sheets";
 
 function useHash() {
@@ -66,7 +66,7 @@ function Overview() {
   const propIn = Math.min(prop, Math.max(avail, 0));
   const count = (s: Status) => jobs.filter((j) => j.status === s).length;
 
-  const parts = ["On hand", ...(["worksheet", "confirmed", "proposal"] as const).filter((k) => prefs[k])];
+  const parts = ["On hand", ...(["worksheet", "confirmed"] as const).filter((k) => prefs[k]), ...(proposalLabel(prefs) ? [proposalLabel(prefs)] : [])];
   const bal = balance;
   const label = short
     ? `Stock ${fmt(ON_HAND)}: worksheet ${fmt(ws)}, confirmed ${fmt(conf)}, proposal ${fmt(prop)} of which ${fmt(short)} is out of stock.`
@@ -198,6 +198,7 @@ function JobCard({ j, inStock }: { j: Job; inStock: boolean }) {
         <dl className="meta">
           <div><dt>Reserved by</dt><dd>{j.by}</dd></div>
           <div><dt>Est. handover</dt><dd>{j.handover ?? "Not set"}</dd></div>
+          {j.likelihood && <div><dt>Likely to confirm</dt><dd>{j.likelihood}</dd></div>}
         </dl>
       )}
       {!isUsed && (
@@ -225,6 +226,7 @@ function JobDetail({ id }: { id: string }) {
         <dl className="meta">
           <div><dt>Reserved by</dt><dd>{j.by}</dd></div>
           <div><dt>Est. handover</dt><dd>{j.handover ?? "Not set"}</dd></div>
+          {j.likelihood && <div><dt>Likely to confirm</dt><dd>{j.likelihood}</dd></div>}
           {j.meta?.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
         </dl>
       </div>

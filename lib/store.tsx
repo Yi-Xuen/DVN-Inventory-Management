@@ -1,15 +1,22 @@
 "use client";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { CURRENT_USER, Job, ROLLS, SEED_JOBS, Status, TODAY } from "./data";
+import { CURRENT_USER, Job, LIKELIHOODS, Likelihood, ROLLS, SEED_JOBS, Status, TODAY } from "./data";
 
-export type CalcPrefs = { worksheet: boolean; confirmed: boolean; proposal: boolean };
-const DEFAULT_PREFS: CalcPrefs = { worksheet: true, confirmed: true, proposal: false };
-const KEY = "dvn-proto-v1";
+export type CalcPrefs = { worksheet: boolean; confirmed: boolean; levels: Record<Likelihood, boolean> };
+const DEFAULT_PREFS: CalcPrefs = { worksheet: true, confirmed: true, levels: { "Very likely": false, Likely: false, Unlikely: false } };
+const KEY = "dvn-proto-v2";
+
+/** Text for the formula line, e.g. "proposal (very likely, likely)". Empty when no proposal group is ticked. */
+export function proposalLabel(p: CalcPrefs): string {
+  const on = [...LIKELIHOODS].reverse().filter((l) => p.levels[l]);
+  if (on.length === 0) return "";
+  return on.length === 3 ? "proposal" : `proposal (${on.map((l) => l.toLowerCase()).join(", ")})`;
+}
 
 export const ON_HAND = ROLLS.reduce((s, r) => s + r.left, 0);
 export const fmt = (n: number) => `${Number.isInteger(n) ? n : n.toFixed(2).replace(/0$/, "")} m`;
 
-type NewReservation = { status: Exclude<Status, "used">; metres: number; customer: string; location: string; handover: string | null };
+type NewReservation = { status: Exclude<Status, "used">; metres: number; customer: string; location: string; handover: string | null; likelihood?: Likelihood };
 
 type Ctx = {
   ready: boolean;
@@ -19,6 +26,7 @@ type Ctx = {
   reserve: (r: NewReservation) => Job;
   reset: () => void;
   sum: (s: Status) => number;
+  sumLevel: (l: Likelihood) => number; // proposals by how likely the customer is to confirm
   avail: number; // on hand - worksheet - confirmed
   balance: number; // using prefs
   inStockIds: Set<string>; // proposals covered by available stock, first come first served
@@ -42,7 +50,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       if (raw) {
         const d = JSON.parse(raw);
         if (Array.isArray(d.jobs)) setJobs(d.jobs);
-        if (d.prefs) setPrefsState({ ...DEFAULT_PREFS, ...d.prefs });
+        if (d.prefs) setPrefsState({ ...DEFAULT_PREFS, ...d.prefs, levels: { ...DEFAULT_PREFS.levels, ...d.prefs.levels } });
       }
     } catch {}
     setReady(true);
@@ -55,10 +63,16 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   const sum = useCallback((s: Status) => jobs.filter((j) => j.status === s).reduce((a, j) => a + j.metres, 0), [jobs]);
 
+  const sumLevel = useCallback(
+    (l: Likelihood) => jobs.filter((j) => j.status === "proposal" && (j.likelihood ?? "Likely") === l).reduce((a, j) => a + j.metres, 0),
+    [jobs],
+  );
+
   const value = useMemo<Ctx>(() => {
     const ws = sum("worksheet"), conf = sum("confirmed"), prop = sum("proposal");
     const avail = ON_HAND - ws - conf;
-    const balance = ON_HAND - (prefs.worksheet ? ws : 0) - (prefs.confirmed ? conf : 0) - (prefs.proposal ? prop : 0);
+    const propTaken = LIKELIHOODS.reduce((a, l) => a + (prefs.levels[l] ? sumLevel(l) : 0), 0);
+    const balance = ON_HAND - (prefs.worksheet ? ws : 0) - (prefs.confirmed ? conf : 0) - propTaken;
     let left = Math.max(avail, 0);
     const inStockIds = new Set<string>();
     let blocked = false; // first come, first served: once a quote does not fit, later ones wait behind it
@@ -67,7 +81,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       else blocked = true;
     });
     return {
-      ready, jobs, prefs, sum, avail, balance, inStockIds,
+      ready, jobs, prefs, sum, sumLevel, avail, balance, inStockIds,
       setPrefs: setPrefsState,
       reset: () => { setJobs(SEED_JOBS); setPrefsState(DEFAULT_PREFS); },
       reserve: (r) => {
@@ -76,6 +90,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         const job: Job = {
           id: `n${Date.now()}`, status: r.status, customer: r.customer, location: r.location, metres: r.metres,
           by: CURRENT_USER, handover: r.handover, wsNo,
+          likelihood: r.status === "proposal" ? r.likelihood : undefined,
           sewing: r.status === "worksheet" ? "Queued for sewing" : undefined,
           meta: [[r.status === "proposal" ? "Quoted" : r.status === "confirmed" ? "Confirmed" : "Worksheet created", TODAY]],
           log: [`${TODAY} · ${CURRENT_USER} ${verb}`],
@@ -84,7 +99,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         return job;
       },
     };
-  }, [ready, jobs, prefs, sum]);
+  }, [ready, jobs, prefs, sum, sumLevel]);
 
   return <StoreCtx.Provider value={value}>{children}</StoreCtx.Provider>;
 }
