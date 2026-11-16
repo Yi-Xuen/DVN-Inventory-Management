@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FABRIC, Job, ROLLS, RECEIVED_TOTAL, STATUS_LABEL, Status } from "@/lib/data";
+import { FABRIC, Job, LIKELIHOODS, ROLLS, RECEIVED_TOTAL, STATUS_LABEL, Status } from "@/lib/data";
 import { ON_HAND, StoreProvider, fmt, proposalLabel, useStore } from "@/lib/store";
 import { CalcSheet, ReserveSheet } from "./Sheets";
 
@@ -55,22 +55,33 @@ function TopBar({ to, sup, title }: { to: string; sup: string; title: string }) 
 
 /* ---------- 1. Overview ---------- */
 function Overview() {
-  const { sum, jobs, balance, prefs, avail } = useStore();
+  const { sum, sumLevel, jobs, balance, prefs } = useStore();
   const [calc, setCalc] = useState(false);
   const [reserving, setReserving] = useState(false);
   const ws = sum("worksheet"), conf = sum("confirmed"), prop = sum("proposal"), used = sum("used");
-  const demand = ws + conf + prop;
-  const short = Math.max(demand - ON_HAND, 0);
-  const total = Math.max(ON_HAND, demand);
-  const pct = (n: number) => `${(n / total) * 100}%`;
-  const propIn = Math.min(prop, Math.max(avail, 0));
   const count = (s: Status) => jobs.filter((j) => j.status === s).length;
+
+  // The chart only shows what the calculator takes away from stock.
+  const propTaken = LIKELIHOODS.reduce((a, l) => a + (prefs.levels[l] ? sumLevel(l) : 0), 0);
+  const propPartial = proposalLabel(prefs).replace(/^proposal/, "").trim(); // e.g. "(very likely, likely)"
+  const items = [
+    ...(prefs.worksheet ? [{ key: "ws", label: "Worksheet", m: ws }] : []),
+    ...(prefs.confirmed ? [{ key: "conf", label: "Confirmed", m: conf }] : []),
+    ...(propTaken > 0 ? [{ key: "prop", label: propPartial ? `Proposal ${propPartial}` : "Proposal", m: propTaken }] : []),
+  ];
+  const demand = items.reduce((a, i) => a + i.m, 0);
+  const short = Math.max(demand - ON_HAND, 0);
+  const free = Math.max(ON_HAND - demand, 0);
+  const total = Math.max(ON_HAND, demand) || 1;
+  const pct = (n: number) => `${(n / total) * 100}%`;
+  let room = ON_HAND; // fill the bar in order; whatever does not fit in stock becomes "out of stock"
+  const segs = items.map((i) => { const inStock = Math.min(i.m, room); room -= inStock; return { ...i, inStock }; });
 
   const parts = ["On hand", ...(["worksheet", "confirmed"] as const).filter((k) => prefs[k]), ...(proposalLabel(prefs) ? [proposalLabel(prefs)] : [])];
   const bal = balance;
-  const label = short
-    ? `Stock ${fmt(ON_HAND)}: worksheet ${fmt(ws)}, confirmed ${fmt(conf)}, proposal ${fmt(prop)} of which ${fmt(short)} is out of stock.`
-    : `On hand ${fmt(ON_HAND)}: worksheet ${fmt(ws)}, confirmed ${fmt(conf)}, proposal ${fmt(prop)}, available ${fmt(ON_HAND - demand)}.`;
+  const label =
+    `On hand ${fmt(ON_HAND)}: ` + items.map((i) => `${i.label.toLowerCase()} ${fmt(i.m)}`).join(", ") +
+    (items.length ? ", " : "") + (short ? `${fmt(short)} out of stock.` : `${fmt(free)} available.`);
 
   return (
     <>
@@ -87,29 +98,24 @@ function Overview() {
         </div>
         <div className="formula">{parts.join(" − ")}</div>
         <div className="bar" role="img" aria-label={label}>
-          <i className="sw-ws" style={{ width: pct(ws) }} />
-          <i className="sw-conf" style={{ width: pct(conf) }} />
-          {short ? (
+          {segs.map((g) => g.inStock > 0 && <i key={g.key} className={`sw-${g.key === "prop" ? "prop" : g.key}`} style={{ width: pct(g.inStock) }} />)}
+          {short > 0 ? (
             <>
-              <i className="sw-prop" style={{ width: pct(propIn) }} />
               <i className="short" style={{ width: pct(short) }} />
               <span className="oos" style={{ left: pct(ON_HAND) }} aria-hidden="true" />
             </>
           ) : (
-            <>
-              <i className="sw-prop" style={{ width: pct(prop) }} />
-              <i className="sw-avail" style={{ width: pct(ON_HAND - demand) }} />
-            </>
+            free > 0 && <i className="sw-avail" style={{ width: pct(free) }} />
           )}
         </div>
         <div className="leg">
-          <div><i className="sw sw-ws" /><span>Worksheet</span><span className="num">{fmt(ws)}</span></div>
-          <div><i className="sw sw-conf" /><span>Confirmed</span><span className="num">{fmt(conf)}</span></div>
-          <div className={short ? "off" : ""}><i className="sw sw-prop" /><span>Proposal</span><span className="num">{fmt(prop)}</span></div>
-          {short ? (
+          {items.map((i) => (
+            <div key={i.key}><i className={`sw sw-${i.key}`} /><span>{i.label}</span><span className="num">{fmt(i.m)}</span></div>
+          ))}
+          {short > 0 ? (
             <div><i className="sw sw-short" /><span>Out of stock</span><span className="num">{fmt(short)}</span></div>
           ) : (
-            <div><i className="sw sw-avail" /><span>Available</span><span className="num">{fmt(ON_HAND - demand)}</span></div>
+            <div><i className="sw sw-avail" /><span>Available</span><span className="num">{fmt(free)}</span></div>
           )}
         </div>
         {bal < 0 && <div className="buy"><span>To buy</span><span className="num">{fmt(Math.abs(bal))}</span></div>}
