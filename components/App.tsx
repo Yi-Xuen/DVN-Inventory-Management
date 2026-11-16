@@ -1,4 +1,5 @@
 "use client";
+import ThemeToggle from "./ThemeToggle";
 import { useEffect, useState } from "react";
 import { FABRIC, Job, LIKELIHOODS, ROLLS, RECEIVED_TOTAL, STATUS_LABEL, Status } from "@/lib/data";
 import { ON_HAND, StoreProvider, fmt, proposalLabel, useStore } from "@/lib/store";
@@ -36,6 +37,7 @@ function Shell() {
     <div className="shell">
       <div className="proto-bar">
         <span>Prototype · sample data</span>
+        <ThemeToggle />
         <button onClick={() => { if (confirm("Reset the demo to its starting data?")) { reset(); go(""); } }}>Reset demo</button>
       </div>
       <main className="phone">

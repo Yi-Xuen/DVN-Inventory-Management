@@ -4,6 +4,8 @@ import { FABRIC, LIKELIHOODS, STATUS_LABEL, Status, handoverOptions, RECEIVED_TO
 import { CalcPrefs, ON_HAND, fmt, proposalLabel, useStore } from "@/lib/store";
 import { ArrowRight2 } from "iconsax-react";
 import { Button } from "./ui/Button";
+import { Slider } from "./ui/Slider";
+import { MonthYearPicker } from "./ui/MonthYearPicker";
 import { Checkbox } from "./ui/Checkbox";
 import { Card } from "./ui/Card";
 import { Input, Select } from "./ui/Field";
@@ -133,7 +135,9 @@ const TABS: RStatus[] = ["proposal", "confirmed", "worksheet"];
 export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone: (id: string, status: RStatus) => void }) {
   const { avail, reserve } = useStore();
   const [help, setHelp] = useState(false);
-  useSheetBehaviour(() => (help ? setHelp(false) : onClose()));
+  const [pickHo, setPickHo] = useState(false);
+  const HANDOVER = handoverOptions();
+  useSheetBehaviour(() => (pickHo ? setPickHo(false) : help ? setHelp(false) : onClose()));
   const [step, setStep] = useState<"amount" | "form" | "done">("amount");
   const [status, setStatus] = useState<RStatus>("proposal");
   const [amount, setAmount] = useState("0");
@@ -181,7 +185,6 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
               </button>
             </div>
             <Card className="fabric-card" aria-label="Fabric being reserved">
-              <span className="cap">Fabric</span>
               <span className="sup">{FABRIC.brand}</span>
               <b>{FABRIC.name}</b>
             </Card>
@@ -240,10 +243,11 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
             </div>
             <div className="fld">
               <label className="cap" htmlFor="rs-ho">Est. handover date <em className={needHandover ? "req" : ""}>· {needHandover ? "Required" : "Optional"}</em></label>
-              <Select id="rs-ho" invalid={tryNext && needHandover && !handover} value={handover} onChange={(e) => setHandover(e.target.value)}>
-                <option value="">Month, year</option>
-                {handoverOptions().map((o) => <option key={o} value={o}>{o}</option>)}
-              </Select>
+              <MonthYearPicker
+                id="rs-ho" value={handover} onChange={setHandover} open={pickHo} onOpenChange={setPickHo}
+                min={HANDOVER[0]} max={HANDOVER[HANDOVER.length - 1]} optional={!needHandover}
+                invalid={tryNext && needHandover && !handover}
+              />
               {tryNext && needHandover && !handover && <span className="hint err">Choose a month and year to continue.</span>}
             </div>
             {status === "proposal" && (
@@ -254,17 +258,7 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="9" cy="9" r="7.5" /><path d="M9 8v4.5" strokeLinecap="round" /><circle cx="9" cy="5.4" r="0.6" fill="currentColor" stroke="none" /></svg>
                   </button>
                 </div>
-                <input
-                  id="rs-like" className="slider" type="range" min={0} max={2} step={1} value={likeIdx}
-                  onChange={(e) => setLikeIdx(Number(e.target.value))}
-                  aria-valuetext={LIKELIHOODS[likeIdx]}
-                  style={{ ["--pos" as string]: `${likeIdx * 50}%` }}
-                />
-                <div className="stops" aria-hidden="true">
-                  {LIKELIHOODS.map((l, i) => (
-                    <button key={l} type="button" tabIndex={-1} className={i === likeIdx ? "on" : ""} onClick={() => setLikeIdx(i)}>{l}</button>
-                  ))}
-                </div>
+                <Slider id="rs-like" stops={LIKELIHOODS} value={likeIdx} onChange={setLikeIdx} />
               </div>
             )}
             <div className="screen-foot"><Button onClick={submit}>Reserve as {STATUS_LABEL[status]}</Button></div>

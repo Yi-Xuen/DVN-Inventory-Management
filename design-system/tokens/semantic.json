@@ -82,7 +82,7 @@
     "surface-raised": {
       "$type": "color",
       "$value": {
-        "light": "{neutral.100}",
+        "light": "{neutral.200}",
         "dark": "{neutral.800}"
       }
     },
@@ -110,7 +110,7 @@
     "disabled": {
       "$type": "color",
       "$value": {
-        "light": "{neutral.200}",
+        "light": "{neutral.300}",
         "dark": "{neutral.800}"
       }
     },
