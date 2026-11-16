@@ -5,7 +5,7 @@ import { CalcSheet, ReserveSheet } from './Sheets';
 const meta = {
   component: CalcSheet,
   tags: ['ai-generated'],
-  args: { onClose: fn() },
+  args: { fabricId: 'sbw', onClose: fn() },
 } satisfies Meta<typeof CalcSheet>;
 
 export default meta;
@@ -20,7 +20,7 @@ export const Calculator: Story = {
 export const CalculatorDark: Story = { tags: ['!autodocs'], globals: { theme: 'dark' } };
 
 export const Reserve: Story = {
-  render: (args) => <ReserveSheet onClose={args.onClose} onDone={fn()} />,
+  render: (args) => <ReserveSheet fabricId={args.fabricId} onClose={args.onClose} onDone={fn()} />,
   play: async ({ canvas, userEvent }) => {
     // Proposal is the default tab; picking another tab must move aria-selected.
     const proposal = await canvas.findByRole('tab', { name: /proposal/i });

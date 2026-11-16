@@ -103,7 +103,7 @@ export function MonthYearPicker({ value, onChange, min, max, open, onOpenChange,
         aria-haspopup="dialog"
         aria-invalid={invalid || undefined}
         onClick={() => onOpenChange(true)}
-        className={`body-2 relative flex min-h-12 w-full items-center rounded-ds-2 border bg-surface px-3 pr-10 text-left ${invalid ? "border-line-danger" : "border-line-strong"} ${value ? "text-fg" : "text-fg-subtle"}`}
+        className={`body-2 relative flex min-h-12 w-full items-center rounded-ds-2 border bg-surface px-3 pr-10 text-left ${invalid ? "border-line-danger" : "border-line-subtle focus-visible:border-line-primary"} ${value ? "text-fg" : "text-fg-subtle"}`}
       >
         {value || placeholder}
         <ArrowDown2 size={16} color="currentColor" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-icon" />

@@ -37,7 +37,7 @@ export function FactoryWorkList({ jobs, onStart, onLogCut }: FactoryWorkListProp
   return (
     <ul className="m-0 grid list-none gap-3 p-0 md:grid-cols-2 lg:grid-cols-3">
       {jobs.map((job) => (
-        <li key={job.itemNo} className="grid content-start gap-3 rounded-ds-3 border border-line-subtle bg-surface p-4 shadow-ds-1">
+        <li key={job.itemNo} className="grid content-start gap-3 rounded-ds-3 bg-surface p-4 shadow-ds-1">
           <div className="flex items-center justify-between gap-2">
             <span className="heading-4 text-fg">{job.itemNo}</span>
             <StatusBadge status={job.status} />

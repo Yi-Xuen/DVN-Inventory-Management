@@ -62,7 +62,7 @@ const preview: Preview = {
 
   // Only the state the app actually reads: its localStorage key and the URL hash route.
   async beforeEach() {
-    localStorage.removeItem('dvn-proto-v2')
+    localStorage.removeItem('dvn-proto-v4')
     window.location.hash = ''
   },
 };
