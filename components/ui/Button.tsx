@@ -7,15 +7,14 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
 };
 
-// Hover/active tints are mixed from existing tokens (no dedicated state tokens yet), so they work in light and dark.
+// Primary hover/pressed use the next two brand steps (bg-brand-hover, bg-brand-active); secondary tints are mixed from text-default.
 const VARIANTS = {
-  primary: "bg-brand text-fg-on-brand border-0",
-  secondary: "bg-transparent text-fg border border-line-strong",
+  primary: "bg-brand text-fg-on-brand border-0 disabled:bg-disabled disabled:text-fg-disabled",
+  secondary: "bg-transparent text-fg border border-line-strong disabled:border-line-subtle disabled:text-fg-disabled",
 };
 
 const INTERACTIVE = {
-  primary:
-    "hover:bg-[color-mix(in_srgb,var(--bg-brand),var(--text-on-brand)_12%)] active:bg-[color-mix(in_srgb,var(--bg-brand),var(--text-on-brand)_22%)]",
+  primary: "hover:bg-brand-hover active:bg-brand-active",
   secondary:
     "hover:bg-[color-mix(in_srgb,transparent,var(--text-default)_6%)] active:bg-[color-mix(in_srgb,transparent,var(--text-default)_12%)]",
 };
@@ -38,7 +37,7 @@ export function Button({
       disabled={disabled}
       aria-busy={loading || undefined}
       onClick={loading ? undefined : onClick}
-      className={`label-2 block min-h-12 w-full rounded-ds-2 p-3 text-center outline-offset-2 transition-colors focus-visible:outline-2 focus-visible:outline-fg-brand disabled:cursor-not-allowed disabled:opacity-35 ${
+      className={`label-2 block min-h-12 w-full rounded-ds-2 p-3 text-center outline-offset-2 transition-colors focus-visible:outline-2 focus-visible:outline-fg-brand disabled:cursor-not-allowed ${
         loading ? "cursor-progress" : "cursor-pointer"
       } ${VARIANTS[variant]} ${interactive ? INTERACTIVE[variant] : ""} ${className}`}
       {...props}

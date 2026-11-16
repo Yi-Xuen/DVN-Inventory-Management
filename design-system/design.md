@@ -8,14 +8,11 @@
 Defaults used (not asked): light + dark themes; output in `design-system/`.
 
 ## Color
-Rules: `base` = chosen color; `light` = same hue, S8 B99; `dark` = same hue/saturation, B lowered until 7:1 on `light`; `bright` = lightened for 4.5:1 on dark surfaces. Neutrals use hue 39 (warm tan, taken from #C6A463 with its saturation cut from 50 to a 2-10 ramp), brightness 98 to 8. Contrast re-checked: text 17.4:1, subtle text 6.0:1 light and 7.5:1 dark.
+Rules: brand is an 11-step scale (50 to 950) like the neutrals, at hue 160. Saturation rises from 5 to 68 and brightness falls from 99 to 10. The previous tones sit on the scale: light = 50, bright = 500 (4.5:1 on dark surfaces), dark = 700, and the chosen colour #0E2C22 = 900. Neutrals use hue 39 (warm tan, taken from #C6A463 with its saturation cut from 50 to a 2-10 ramp), brightness 98 to 8. Contrast re-checked: text 17.4:1, subtle text 6.0:1 light and 7.5:1 dark.
 
 | Token | Hex | HSB |
 |---|---|---|
-| brand.primary.base | #0E2C22 | 160/68/17 |
-| brand.primary.light | #F0FCF8 | 160/5/99 |
-| brand.primary.dark | #1D5C47 | 160/68/36 |
-| brand.primary.bright | #469E81 | 160/56/62 |
+| brand.50 / 500 / 700 / 900 / 950 | #F0FCF8 / #469E81 / #1D5C47 / #0E2C22 / #081A14 | 160/5/99 / 160/56/62 / 160/68/36 / 160/68/17 / 160/68/10 |
 | neutral.50 / 950 | #FAF8F5 / #141412 | 39/2/98 / 39/10/8 |
 | chart.blue (base / bright) | #5495C7 / #75A9D1 | 206/58/78 / 206/44/82 |
 | chart.purple (base / bright) | #BB6BD6 / #C27ED9 | 285/50/84 / 285/42/85 |
@@ -25,7 +22,7 @@ Rules: `base` = chosen color; `light` = same hue, S8 B99; `dark` = same hue/satu
 
 **Chart colors:** `chart.blue` and `chart.purple` follow the hues of #95CAF3 (206) and #DC95F3 (285). Semantic `chart.*` uses `base` in light mode and `bright` in dark mode. Light-mode tones are deeper than the reference pastels so fills reach about 3:1 on the page (blue 3.0:1, purple 3.2:1). Dark-mode tones are 5.6 to 7.3:1 on the dark surfaces.
 
-**Interface palette notes:** the brand is green, so success overlaps the brand hue. Per the overlap rule, success keeps hue 160 and brightness and raises saturation from 68 to 84. Warning and danger do not overlap and use the course defaults. A very dark brand base (B17) means brand surfaces use `base`, and brand text uses `dark` (light mode) or `bright` (dark mode).
+**Interface palette notes:** the brand is green, so success overlaps the brand hue. Per the overlap rule, success keeps hue 160 and brightness and raises saturation from 68 to 84. Warning and danger do not overlap and use the course defaults. Brand surfaces and borders use `brand.700`. Brand text and icons use `brand.900` in light mode and `brand.500` in dark mode.
 
 **Contrast:** all 36 checked pairs pass WCAG, with no failures to fix. Text default is 17.5:1 on the page in both modes. Subtle text is 6.1:1 in light and 7.6:1 in dark. Tone pairs (dark on light) are 7.0 to 7.4:1.
 

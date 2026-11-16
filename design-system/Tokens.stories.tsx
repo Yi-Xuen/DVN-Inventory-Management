@@ -62,8 +62,8 @@ export const Colors: Story = {
     const lookup = (name: string) => primHex[name] ?? '#000000';
     return (
       <Page>
-        <Section title="Brand" note="Chosen colour #0E2C22. light / dark / bright are generated tones.">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <Section title="Brand" note="Hue 160 from the chosen colour #0E2C22 (brand.900), 50 to 950, same scale system as the neutrals.">
+          <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
             {group('brand').map(([n, l]) => <Swatch key={n} name={n} hex={l.$value} hsb={l.hsb} />)}
           </div>
         </Section>

@@ -19,11 +19,11 @@ export const Overview: Story = {
   },
 };
 
-// The brand button must resolve to the design-system brand colour (--bg-brand = brand.primary.base #0E2C22).
+// The brand button must resolve to the design-system brand colour (--bg-brand = brand.700 #1D5C47).
 export const CssCheck: Story = {
   play: async ({ canvas }) => {
     const button = await canvas.findByRole('button', { name: /reserve this fabric/i });
-    await expect(getComputedStyle(button).backgroundColor).toBe('rgb(14, 44, 34)');
+    await expect(getComputedStyle(button).backgroundColor).toBe('rgb(29, 92, 71)');
   },
 };
 
