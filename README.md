@@ -4,6 +4,12 @@ Clickable prototype of the Divani fabric roll inventory flow (overview, balance 
 
 Wireframes live in the Obsidian vault (`02 Product/09 Fabric Stock Screens - Draft.html`). Stack decision: ADR-001 (Next.js, later Supabase).
 
+## Links
+
+- **Prototype (live):** https://yi-xuen.github.io/DVN-Inventory-Management/
+- **Storybook (design system and UI components):** https://yi-xuen.github.io/DVN-Inventory-Management/storybook/ (run locally with `npm run storybook`, opens at http://localhost:6006)
+- **Repository:** https://github.com/Yi-Xuen/DVN-Inventory-Management
+
 ## Run locally
 
 ```bash
@@ -13,7 +19,9 @@ npm run dev
 
 ## Build and deploy
 
-`npm run build` writes a static site to `out/`. Pushing to `main` publishes it to GitHub Pages through `.github/workflows/pages.yml`.
+`npm run build` writes a static site to `out/`. Pushing to `main` also builds Storybook into `out/storybook/` and publishes both to GitHub Pages through `.github/workflows/pages.yml`.
 In the repo, go to Settings → Pages and set Source to "GitHub Actions" (one-time).
+
+To browse the design system and components, run `npm run storybook`. `npm run build-storybook` creates a static build.
 
 The "Reset demo" button at the top of the app restores the starting data.
