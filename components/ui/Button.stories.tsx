@@ -17,8 +17,8 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   play: async ({ canvas, userEvent, args }) => {
     const button = canvas.getByRole('button', { name: /reserve this fabric/i });
-    // Brand fill from the design system (bg-brand = brand.primary.base).
-    await expect(getComputedStyle(button).backgroundColor).toBe('rgb(14, 44, 34)');
+    // Brand fill from the design system (bg-brand = brand.700 #1D5C47).
+    await expect(getComputedStyle(button).backgroundColor).toBe('rgb(29, 92, 71)');
     await userEvent.click(button);
     await expect(args.onClick).toHaveBeenCalled();
   },
