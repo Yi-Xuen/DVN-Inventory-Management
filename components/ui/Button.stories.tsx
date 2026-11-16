@@ -25,4 +25,34 @@ export const Primary: Story = {
 };
 export const Secondary: Story = { args: { variant: 'secondary', children: 'Cancel' } };
 export const Disabled: Story = { args: { disabled: true, children: <span className="inline-flex items-center gap-2">Next <ArrowRight2 size={16} color="currentColor" /></span> } };
+export const DisabledSecondary: Story = { args: { variant: 'secondary', disabled: true, children: 'Cancel' } };
 export const Dark: Story = { globals: { theme: 'dark' } };
+export const DarkSecondary: Story = { args: { variant: 'secondary', children: 'Cancel' }, globals: { theme: 'dark' } };
+
+// Hover/active are CSS :hover/:active, which synthetic test events can't trigger.
+// storybook-addon-pseudo-states forces them via parameters (also toggleable from the toolbar).
+export const Hover: Story = { parameters: { pseudo: { hover: true } } };
+export const Pressed: Story = { parameters: { pseudo: { hover: true, active: true } } };
+export const SecondaryHover: Story = { args: { variant: 'secondary', children: 'Cancel' }, parameters: { pseudo: { hover: true } } };
+export const SecondaryPressed: Story = { args: { variant: 'secondary', children: 'Cancel' }, parameters: { pseudo: { hover: true, active: true } } };
+
+export const Focus: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.tab();
+    const button = canvas.getByRole('button');
+    await expect(button).toHaveFocus();
+    await expect(getComputedStyle(button).outlineStyle).toBe('solid');
+  },
+};
+
+export const Loading: Story = {
+  args: { loading: true, children: 'Reserving…' },
+  play: async ({ canvas, userEvent, args }) => {
+    const button = canvas.getByRole('button');
+    await expect(button).toHaveAttribute('aria-busy', 'true');
+    await userEvent.click(button);
+    await expect(args.onClick).not.toHaveBeenCalled();
+  },
+};
+
+export const LoadingSecondary: Story = { args: { variant: 'secondary', loading: true, children: 'Cancelling…' } };
