@@ -15,6 +15,7 @@ function useSheetBehaviour(onClose: () => void) {
       if (!vv) return;
       root.setProperty("--kb", `${Math.max(0, window.innerHeight - vv.height - vv.offsetTop)}px`);
       root.setProperty("--vvh", `${vv.height}px`);
+      root.setProperty("--vvtop", `${vv.offsetTop}px`);
     };
     fit();
     vv?.addEventListener("resize", fit);
@@ -26,6 +27,7 @@ function useSheetBehaviour(onClose: () => void) {
       vv?.removeEventListener("scroll", fit);
       root.removeProperty("--kb");
       root.removeProperty("--vvh");
+      root.removeProperty("--vvtop");
     };
   }, [onClose]);
 }
@@ -162,20 +164,27 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
     setStep("done");
   };
 
-  const Header = (
-    <>
-      <div className="grab" />
-      <div><h2>Reserve</h2><p className="sub">{FABRIC.name}</p></div>
-    </>
-  );
-
   return (
     <>
-      <div className="scrim" onClick={step === "done" ? undefined : onClose} aria-hidden="true" />
-      <div className="sheet" role="dialog" aria-modal="true" aria-label="Reserve fabric">
+      <div className="scrim" aria-hidden="true" />
+      <div className="screen" role="dialog" aria-modal="true" aria-label="Reserve fabric">
+        {step !== "done" && (
+          <>
+            <div className="screen-top">
+              <h2>Reserve Fabric</h2>
+              <button type="button" className="close" aria-label="Cancel reservation" onClick={onClose}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16" /></svg>
+              </button>
+            </div>
+            <div className="card fabric-card" aria-label="Fabric being reserved">
+              <span className="cap">Fabric</span>
+              <span className="sup">{FABRIC.brand}</span>
+              <b>{FABRIC.name}</b>
+            </div>
+          </>
+        )}
         {step === "amount" && (
           <>
-            {Header}
             <div className="seg" role="tablist" aria-label="Reserve as">
               {TABS.map((t) => (
                 <button key={t} role="tab" aria-selected={status === t} className={status === t ? "on" : ""} onClick={() => pickStatus(t)}>{STATUS_LABEL[t]}</button>
@@ -193,13 +202,12 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
               />
               <small>m</small>
             </div>
-            <button className="btn" disabled={metres <= 0} onClick={() => { setLikeIdx(MIDDLE); setStep("form"); }}>Next →</button>
+            <div className="screen-foot"><button className="btn" disabled={metres <= 0} onClick={() => { setLikeIdx(MIDDLE); setStep("form"); }}>Next →</button></div>
           </>
         )}
 
         {step === "form" && (
           <>
-            {Header}
             <div className="fld">
               <label className="cap" htmlFor="rs-status">Reserve for</label>
               <select id="rs-status" className="box pre" value={status} onChange={(e) => pickStatus(e.target.value as RStatus)}>
@@ -254,13 +262,12 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
                 </div>
               </div>
             )}
-            <button className="btn" onClick={submit}>Reserve as {STATUS_LABEL[status]}</button>
+            <div className="screen-foot"><button className="btn" onClick={submit}>Reserve as {STATUS_LABEL[status]}</button></div>
           </>
         )}
 
         {step === "done" && doneJob && (
           <>
-            <div className="grab" />
             <div className="done">
               <div className="tick" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 16l6 6 11-13" /></svg></div>
               <h2>Reserved</h2>
@@ -275,7 +282,7 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
                 {status === "proposal" && <div><dt>Likely to confirm</dt><dd>{LIKELIHOODS[likeIdx]}</dd></div>}
               </dl>
             </div>
-            <button className="btn" onClick={() => onDone(doneJob.id, status)}>Back to fabric</button>
+            <div className="screen-foot"><button className="btn" onClick={() => onDone(doneJob.id, status)}>Back to fabric</button></div>
           </>
         )}
       </div>
