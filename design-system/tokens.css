@@ -102,6 +102,7 @@
   --text-success: var(--green-700);
   --text-warning: var(--yellow-800);
   --text-danger: var(--red-800);
+  --text-danger-bright: var(--red-700);
 }
 
 [data-theme="dark"] {
@@ -132,6 +133,7 @@
   --text-success: var(--green-400);
   --text-warning: var(--yellow-500);
   --text-danger: var(--red-400);
+  --text-danger-bright: var(--red-400);
 }
 
 :root {

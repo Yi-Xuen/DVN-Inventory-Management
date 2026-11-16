@@ -98,7 +98,7 @@
 .fld { display: grid; gap: var(--space-1); }
 .cap { font-size: var(--body-4-font-size); color: var(--muted); font-weight: 600; }
 .cap em { font-style: normal; text-transform: none; letter-spacing: 0; font-weight: 400; }
-.cap em.req { color: var(--neg); }
+.cap em.req { color: var(--text-danger-bright); }
 .box { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); width: 100%; border: 1px solid var(--card-line); border-radius: var(--radius-2); padding: 0 var(--space-3); font: 400 var(--body-2-font-size)/var(--body-2-line-height) var(--font-text); min-height: 48px; background: var(--surface); color: var(--ink); }
 .box.pre { background: var(--track); border-color: var(--track); font-weight: 600; }
 .box button { background: none; border: 0; padding: var(--space-3) 0 var(--space-3) var(--space-3); font: 600 var(--body-3-font-size)/var(--body-3-line-height) var(--font-text); color: var(--muted); text-decoration: underline; cursor: pointer; }

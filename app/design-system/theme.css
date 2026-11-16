@@ -29,6 +29,7 @@
   --color-fg-success: var(--text-success);
   --color-fg-warning: var(--text-warning);
   --color-fg-danger: var(--text-danger);
+  --color-fg-danger-bright: var(--text-danger-bright);
   /* borders (border-line ...) */
   --color-line: var(--border-default);
   --color-line-subtle: var(--border-subtle);

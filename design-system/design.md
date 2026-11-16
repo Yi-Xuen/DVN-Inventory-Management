@@ -82,8 +82,9 @@ Four groups: background, border, icon and text. Each token aliases a primitive f
 | text-success | green.700 | green.400 |
 | text-warning | yellow.800 | yellow.500 |
 | text-danger | red.800 | red.400 |
+| text-danger-bright | red.700 | red.400 |
 
-**Contrast:** checked with the WCAG formula in both modes. Text default is 17.4:1 on the page. Subtle text is 6.0:1 light and 7.5:1 dark. Status text on its own tint is 7.3 to 7.5:1 in light mode and 4.8 to 6.1:1 in dark mode. In dark mode the warning and danger tints moved to the 900 step and danger text to red.400, because the previous pairs were below 4.5:1 (4.1 and 2.6). Chart fills are 3.0 and 3.2:1 on the light page. Known gap, unchanged: `border-strong` is about 2.5:1 on surfaces, under the 3:1 target for non-text UI.
+**Contrast:** checked with the WCAG formula in both modes. Text default is 17.4:1 on the page. Subtle text is 6.0:1 light and 7.5:1 dark. Status text on its own tint is 7.3 to 7.5:1 in light mode and 4.8 to 6.1:1 in dark mode. In dark mode the warning and danger tints moved to the 900 step and danger text to red.400, because the previous pairs were below 4.5:1 (4.1 and 2.6). `text-danger-bright` is a brighter red for small markers such as "Required": 5.7:1 on the light page, the brightest red step that still passes 4.5:1. Chart fills are 3.0 and 3.2:1 on the light page. Known gap, unchanged: `border-strong` is about 2.5:1 on surfaces, under the 3:1 target for non-text UI.
 
 Think low contrast and high contrast, not light and dark.
 

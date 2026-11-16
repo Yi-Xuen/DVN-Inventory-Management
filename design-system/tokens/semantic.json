@@ -243,6 +243,13 @@
         "light": "{red.800}",
         "dark": "{red.400}"
       }
+    },
+    "danger-bright": {
+      "$type": "color",
+      "$value": {
+        "light": "{red.700}",
+        "dark": "{red.400}"
+      }
     }
   }
 }
