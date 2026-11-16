@@ -1,0 +1,198 @@
+/* Maps design-system/tokens.css (CSS variables) to Tailwind v4 utilities.
+   Spacing needs no mapping: Tailwind's 4px scale is the same as space-N (p-4 = 16px = space-4). */
+@import "../../design-system/tokens.css";
+
+@theme inline {
+  /* backgrounds */
+  --color-page: var(--bg-page);
+  --color-surface: var(--bg-surface);
+  --color-raised: var(--bg-surface-raised);
+  --color-brand: var(--bg-brand);
+  --color-success-tint: var(--bg-success);
+  --color-warning-tint: var(--bg-warning);
+  --color-danger-tint: var(--bg-danger);
+  /* text (text-fg, text-fg-subtle ...) */
+  --color-fg: var(--text-default);
+  --color-fg-subtle: var(--text-subtle);
+  --color-fg-disabled: var(--text-disabled);
+  --color-fg-inverse: var(--text-inverse);
+  --color-fg-brand: var(--text-brand);
+  --color-fg-on-brand: var(--text-on-brand);
+  --color-fg-success: var(--text-success);
+  --color-fg-warning: var(--text-warning);
+  --color-fg-danger: var(--text-danger);
+  /* borders (border-line ...) */
+  --color-line: var(--border-default);
+  --color-line-subtle: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+  --color-line-brand: var(--border-brand);
+  --color-line-success: var(--border-success);
+  --color-line-warning: var(--border-warning);
+  --color-line-danger: var(--border-danger);
+  /* icons (text-icon, text-icon-brand ...) */
+  --color-icon: var(--icon-default);
+  --color-icon-subtle: var(--icon-subtle);
+  --color-icon-brand: var(--icon-brand);
+  --color-icon-success: var(--icon-success);
+  --color-icon-warning: var(--icon-warning);
+  --color-icon-danger: var(--icon-danger);
+  /* chart fills (fill-chart-blue, bg-chart-purple ...) */
+  --color-chart-blue: var(--chart-blue);
+  --color-chart-purple: var(--chart-purple);
+  /* radius -> rounded-ds-2, shadow -> shadow-ds-1 */
+  --radius-ds-0: var(--radius-0);
+  --radius-ds-1: var(--radius-1);
+  --radius-ds-2: var(--radius-2);
+  --radius-ds-3: var(--radius-3);
+  --radius-ds-4: var(--radius-4);
+  --radius-ds-6: var(--radius-6);
+  --shadow-ds-1: var(--shadow-1);
+  --shadow-ds-2: var(--shadow-2);
+  --shadow-ds-3: var(--shadow-3);
+  --shadow-ds-4: var(--shadow-4);
+  --shadow-ds-5: var(--shadow-5);
+}
+
+/* font + type styles: class names match the token names (heading-1, body-2-semibold, label-2) */
+@utility font-ds { font-family: var(--font-montserrat), system-ui, sans-serif; }
+
+@utility heading-1 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--heading-1-font-size);
+  line-height: var(--heading-1-line-height);
+  font-weight: var(--heading-1-font-weight);
+  letter-spacing: var(--heading-1-letter-spacing);
+}
+@utility heading-2 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--heading-2-font-size);
+  line-height: var(--heading-2-line-height);
+  font-weight: var(--heading-2-font-weight);
+  letter-spacing: var(--heading-2-letter-spacing);
+}
+@utility heading-3 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--heading-3-font-size);
+  line-height: var(--heading-3-line-height);
+  font-weight: var(--heading-3-font-weight);
+  letter-spacing: var(--heading-3-letter-spacing);
+}
+@utility heading-4 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--heading-4-font-size);
+  line-height: var(--heading-4-line-height);
+  font-weight: var(--heading-4-font-weight);
+  letter-spacing: var(--heading-4-letter-spacing);
+}
+@utility heading-5 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--heading-5-font-size);
+  line-height: var(--heading-5-line-height);
+  font-weight: var(--heading-5-font-weight);
+  letter-spacing: var(--heading-5-letter-spacing);
+}
+@utility body-1 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-1-font-size);
+  line-height: var(--body-1-line-height);
+  font-weight: var(--body-1-font-weight);
+  letter-spacing: var(--body-1-letter-spacing);
+}
+@utility body-1-semibold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-1-semibold-font-size);
+  line-height: var(--body-1-semibold-line-height);
+  font-weight: var(--body-1-semibold-font-weight);
+  letter-spacing: var(--body-1-semibold-letter-spacing);
+}
+@utility body-1-bold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-1-bold-font-size);
+  line-height: var(--body-1-bold-line-height);
+  font-weight: var(--body-1-bold-font-weight);
+  letter-spacing: var(--body-1-bold-letter-spacing);
+}
+@utility body-2 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-2-font-size);
+  line-height: var(--body-2-line-height);
+  font-weight: var(--body-2-font-weight);
+  letter-spacing: var(--body-2-letter-spacing);
+}
+@utility body-2-semibold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-2-semibold-font-size);
+  line-height: var(--body-2-semibold-line-height);
+  font-weight: var(--body-2-semibold-font-weight);
+  letter-spacing: var(--body-2-semibold-letter-spacing);
+}
+@utility body-2-bold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-2-bold-font-size);
+  line-height: var(--body-2-bold-line-height);
+  font-weight: var(--body-2-bold-font-weight);
+  letter-spacing: var(--body-2-bold-letter-spacing);
+}
+@utility body-3 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-3-font-size);
+  line-height: var(--body-3-line-height);
+  font-weight: var(--body-3-font-weight);
+  letter-spacing: var(--body-3-letter-spacing);
+}
+@utility body-3-semibold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-3-semibold-font-size);
+  line-height: var(--body-3-semibold-line-height);
+  font-weight: var(--body-3-semibold-font-weight);
+  letter-spacing: var(--body-3-semibold-letter-spacing);
+}
+@utility body-3-bold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-3-bold-font-size);
+  line-height: var(--body-3-bold-line-height);
+  font-weight: var(--body-3-bold-font-weight);
+  letter-spacing: var(--body-3-bold-letter-spacing);
+}
+@utility body-4 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-4-font-size);
+  line-height: var(--body-4-line-height);
+  font-weight: var(--body-4-font-weight);
+  letter-spacing: var(--body-4-letter-spacing);
+}
+@utility body-4-semibold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-4-semibold-font-size);
+  line-height: var(--body-4-semibold-line-height);
+  font-weight: var(--body-4-semibold-font-weight);
+  letter-spacing: var(--body-4-semibold-letter-spacing);
+}
+@utility body-4-bold {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--body-4-bold-font-size);
+  line-height: var(--body-4-bold-line-height);
+  font-weight: var(--body-4-bold-font-weight);
+  letter-spacing: var(--body-4-bold-letter-spacing);
+}
+@utility label-1 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--label-1-font-size);
+  line-height: var(--label-1-line-height);
+  font-weight: var(--label-1-font-weight);
+  letter-spacing: var(--label-1-letter-spacing);
+}
+@utility label-2 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--label-2-font-size);
+  line-height: var(--label-2-line-height);
+  font-weight: var(--label-2-font-weight);
+  letter-spacing: var(--label-2-letter-spacing);
+}
+@utility label-3 {
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  font-size: var(--label-3-font-size);
+  line-height: var(--label-3-line-height);
+  font-weight: var(--label-3-font-weight);
+  letter-spacing: var(--label-3-letter-spacing);
+}

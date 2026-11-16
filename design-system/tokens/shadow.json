@@ -1,0 +1,118 @@
+{
+  "shadow": {
+    "1": {
+      "$type": "shadow",
+      "$description": "Cards, raised buttons, inputs on focus",
+      "$value": {
+        "light": {
+          "color": "#141412",
+          "alpha": 0.04,
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "8px",
+          "spread": "0px"
+        },
+        "dark": {
+          "color": "#141412",
+          "alpha": 0.08,
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "8px",
+          "spread": "0px"
+        }
+      }
+    },
+    "2": {
+      "$type": "shadow",
+      "$description": "Dropdowns, popovers, tooltips",
+      "$value": {
+        "light": {
+          "color": "#141412",
+          "alpha": 0.08,
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "8px",
+          "spread": "0px"
+        },
+        "dark": {
+          "color": "#141412",
+          "alpha": 0.16,
+          "offsetX": "0px",
+          "offsetY": "4px",
+          "blur": "8px",
+          "spread": "0px"
+        }
+      }
+    },
+    "3": {
+      "$type": "shadow",
+      "$description": "Sticky headers, floating action buttons",
+      "$value": {
+        "light": {
+          "color": "#141412",
+          "alpha": 0.1,
+          "offsetX": "0px",
+          "offsetY": "8px",
+          "blur": "16px",
+          "spread": "0px"
+        },
+        "dark": {
+          "color": "#141412",
+          "alpha": 0.2,
+          "offsetX": "0px",
+          "offsetY": "8px",
+          "blur": "16px",
+          "spread": "0px"
+        }
+      }
+    },
+    "4": {
+      "$type": "shadow",
+      "$description": "Side sheets, drawers",
+      "$value": {
+        "light": {
+          "color": "#141412",
+          "alpha": 0.12,
+          "offsetX": "0px",
+          "offsetY": "12px",
+          "blur": "24px",
+          "spread": "0px"
+        },
+        "dark": {
+          "color": "#141412",
+          "alpha": 0.24,
+          "offsetX": "0px",
+          "offsetY": "12px",
+          "blur": "24px",
+          "spread": "0px"
+        }
+      }
+    },
+    "5": {
+      "$type": "shadow",
+      "$description": "Modals, dialogs",
+      "$value": {
+        "light": {
+          "color": "#141412",
+          "alpha": 0.14,
+          "offsetX": "0px",
+          "offsetY": "16px",
+          "blur": "32px",
+          "spread": "0px"
+        },
+        "dark": {
+          "color": "#141412",
+          "alpha": 0.28,
+          "offsetX": "0px",
+          "offsetY": "16px",
+          "blur": "32px",
+          "spread": "0px"
+        }
+      }
+    }
+  },
+  "shadow-color": {
+    "$type": "color",
+    "$value": "{neutral.950}"
+  }
+}

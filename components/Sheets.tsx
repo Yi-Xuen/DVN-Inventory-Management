@@ -2,6 +2,12 @@
 import { useEffect, useRef, useState } from "react";
 import { FABRIC, LIKELIHOODS, STATUS_LABEL, Status, handoverOptions, RECEIVED_TOTAL, USED_TOTAL } from "@/lib/data";
 import { CalcPrefs, ON_HAND, fmt, proposalLabel, useStore } from "@/lib/store";
+import { ArrowRight2 } from "iconsax-react";
+import { Button } from "./ui/Button";
+import { Checkbox } from "./ui/Checkbox";
+import { Card } from "./ui/Card";
+import { Input, Select } from "./ui/Field";
+import { SegmentedControl } from "./ui/SegmentedControl";
 
 function useSheetBehaviour(onClose: () => void) {
   useEffect(() => {
@@ -38,11 +44,9 @@ const LEVELS_DESC = [...LIKELIHOODS].reverse(); // Very likely, Likely, Unlikely
 export function CalcSheet({ onClose }: { onClose: () => void }) {
   const { prefs, setPrefs, sum, sumLevel } = useStore();
   const [draft, setDraft] = useState<CalcPrefs>(prefs);
-  const parentRef = useRef<HTMLInputElement>(null);
   useSheetBehaviour(onClose);
 
   const onCount = LEVELS_DESC.filter((l) => draft.levels[l]).length;
-  useEffect(() => { if (parentRef.current) parentRef.current.indeterminate = onCount > 0 && onCount < 3; }, [onCount]);
 
   const setAllLevels = (v: boolean) => setDraft({ ...draft, levels: { "Very likely": v, Likely: v, Unlikely: v } });
   const propTaken = LEVELS_DESC.reduce((a, l) => a + (draft.levels[l] ? sumLevel(l) : 0), 0);
@@ -63,21 +67,21 @@ export function CalcSheet({ onClose }: { onClose: () => void }) {
         </div>
         {([["worksheet", "Worksheet", "sw-ws", "queued or sewing"], ["confirmed", "Confirmed", "sw-conf", "no worksheet yet"]] as const).map(([k, label, sw, note]) => (
           <label className="opt" key={k}>
-            <input type="checkbox" checked={draft[k]} onChange={(e) => setDraft({ ...draft, [k]: e.target.checked })} />
+            <Checkbox checked={draft[k]} onChange={(e) => setDraft({ ...draft, [k]: e.target.checked })} aria-label={label} />
             <div><b><i className={`sw ${sw}`} />{label}</b><small>{note}</small></div>
             <span className="v">− {fmt(sum(k))}</span>
           </label>
         ))}
         <div className="opt-group">
           <label className="opt">
-            <input ref={parentRef} type="checkbox" checked={onCount === 3} onChange={(e) => setAllLevels(e.target.checked)} aria-label="Proposal, all" />
+            <Checkbox indeterminate={onCount > 0 && onCount < 3} checked={onCount === 3} onChange={(e) => setAllLevels(e.target.checked)} aria-label="Proposal, all" />
             <div><b><i className="sw sw-prop" />Proposal</b><small>may be cancelled · pick by how likely</small></div>
             <span className="v">− {fmt(propTaken)}</span>
           </label>
           <div className="opt-children" role="group" aria-label="Proposal by likelihood">
             {LEVELS_DESC.map((l) => (
               <label className="opt child" key={l}>
-                <input type="checkbox" checked={draft.levels[l]} onChange={(e) => setDraft({ ...draft, levels: { ...draft.levels, [l]: e.target.checked } })} />
+                <Checkbox checked={draft.levels[l]} onChange={(e) => setDraft({ ...draft, levels: { ...draft.levels, [l]: e.target.checked } })} aria-label={l} />
                 <div><b>{l}</b></div>
                 <span className="v">− {fmt(sumLevel(l))}</span>
               </label>
@@ -90,7 +94,7 @@ export function CalcSheet({ onClose }: { onClose: () => void }) {
           <small>{parts.join(" − ")}</small>
         </div>
         {bal < 0 && <div className="buy"><span>To buy</span><span className="num">{fmt(Math.abs(bal))}</span></div>}
-        <button className="btn" onClick={() => { setPrefs(draft); onClose(); }}>Apply</button>
+        <Button onClick={() => { setPrefs(draft); onClose(); }}>Apply</Button>
       </div>
     </>
   );
@@ -116,7 +120,7 @@ function LikelihoodHelp({ onClose }: { onClose: () => void }) {
             <div key={h.label}><dt>{h.label}</dt><dd>{h.when}</dd></div>
           ))}
         </dl>
-        <button className="btn" onClick={onClose}>Got it</button>
+        <Button onClick={onClose}>Got it</Button>
       </div>
     </>
   );
@@ -176,20 +180,21 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M4 4l12 12M16 4L4 16" /></svg>
               </button>
             </div>
-            <div className="card fabric-card" aria-label="Fabric being reserved">
+            <Card className="fabric-card" aria-label="Fabric being reserved">
               <span className="cap">Fabric</span>
               <span className="sup">{FABRIC.brand}</span>
               <b>{FABRIC.name}</b>
-            </div>
+            </Card>
           </>
         )}
         {step === "amount" && (
           <>
-            <div className="seg" role="tablist" aria-label="Reserve as">
-              {TABS.map((t) => (
-                <button key={t} role="tab" aria-selected={status === t} className={status === t ? "on" : ""} onClick={() => pickStatus(t)}>{STATUS_LABEL[t]}</button>
-              ))}
-            </div>
+            <SegmentedControl
+              aria-label="Reserve as"
+              options={TABS.map((v) => ({ value: v, label: STATUS_LABEL[v] }))}
+              value={status}
+              onChange={pickStatus}
+            />
             <p className="q">How much do you want to reserve?</p>
             <div className="amt">
               <input
@@ -202,7 +207,7 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
               />
               <small>m</small>
             </div>
-            <div className="screen-foot"><button className="btn" disabled={metres <= 0} onClick={() => { setLikeIdx(MIDDLE); setStep("form"); }}>Next →</button></div>
+            <div className="screen-foot"><Button disabled={metres <= 0} onClick={() => { setLikeIdx(MIDDLE); setStep("form"); }}><span className="inline-flex items-center justify-center gap-2">Next <ArrowRight2 size={16} color="currentColor" aria-hidden="true" /></span></Button></div>
           </>
         )}
 
@@ -210,9 +215,9 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
           <>
             <div className="fld">
               <label className="cap" htmlFor="rs-status">Reserve for</label>
-              <select id="rs-status" className="box pre" value={status} onChange={(e) => pickStatus(e.target.value as RStatus)}>
+              <Select id="rs-status" muted value={status} onChange={(e) => pickStatus(e.target.value as RStatus)}>
                 {TABS.map((t) => <option key={t} value={t}>{STATUS_LABEL[t]}</option>)}
-              </select>
+              </Select>
             </div>
             <div className="fld">
               <span className="cap">Reservation amount</span>
@@ -227,18 +232,18 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
             </div>
             <div className="fld">
               <label className="cap" htmlFor="rs-cust">Customer name</label>
-              <input id="rs-cust" className={`box ${tryNext && !customer.trim() ? "err" : ""}`} placeholder="e.g. Mrs Tan" autoComplete="off" value={customer} onChange={(e) => setCustomer(e.target.value)} />
+              <Input id="rs-cust" invalid={tryNext && !customer.trim()} placeholder="e.g. Mrs Tan" autoComplete="off" value={customer} onChange={(e) => setCustomer(e.target.value)} />
             </div>
             <div className="fld">
               <label className="cap" htmlFor="rs-loc">Location</label>
-              <input id="rs-loc" className={`box ${tryNext && !location.trim() ? "err" : ""}`} placeholder="e.g. Tanjung Bungah" autoComplete="off" value={location} onChange={(e) => setLocation(e.target.value)} />
+              <Input id="rs-loc" invalid={tryNext && !location.trim()} placeholder="e.g. Tanjung Bungah" autoComplete="off" value={location} onChange={(e) => setLocation(e.target.value)} />
             </div>
             <div className="fld">
               <label className="cap" htmlFor="rs-ho">Est. handover date <em className={needHandover ? "req" : ""}>· {needHandover ? "Required" : "Optional"}</em></label>
-              <select id="rs-ho" className={`box ${tryNext && needHandover && !handover ? "err" : ""}`} value={handover} onChange={(e) => setHandover(e.target.value)}>
+              <Select id="rs-ho" invalid={tryNext && needHandover && !handover} value={handover} onChange={(e) => setHandover(e.target.value)}>
                 <option value="">Month, year</option>
                 {handoverOptions().map((o) => <option key={o} value={o}>{o}</option>)}
-              </select>
+              </Select>
               {tryNext && needHandover && !handover && <span className="hint err">Choose a month and year to continue.</span>}
             </div>
             {status === "proposal" && (
@@ -262,7 +267,7 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
                 </div>
               </div>
             )}
-            <div className="screen-foot"><button className="btn" onClick={submit}>Reserve as {STATUS_LABEL[status]}</button></div>
+            <div className="screen-foot"><Button onClick={submit}>Reserve as {STATUS_LABEL[status]}</Button></div>
           </>
         )}
 
@@ -273,7 +278,7 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
               <h2>Reserved</h2>
               <p className="sub">{fmt(metres)} of {FABRIC.name} is reserved as a {STATUS_LABEL[status]} {status === "proposal" ? "quote" : "job"}.</p>
             </div>
-            <div className="card">
+            <Card>
               <dl className="meta">
                 <div><dt>Customer</dt><dd>{customer}</dd></div>
                 <div><dt>Location</dt><dd>{location}</dd></div>
@@ -281,8 +286,8 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
                 <div><dt>Reserved by</dt><dd>Jason</dd></div>
                 {status === "proposal" && <div><dt>Likely to confirm</dt><dd>{LIKELIHOODS[likeIdx]}</dd></div>}
               </dl>
-            </div>
-            <div className="screen-foot"><button className="btn" onClick={() => onDone(doneJob.id, status)}>Back to fabric</button></div>
+            </Card>
+            <div className="screen-foot"><Button onClick={() => onDone(doneJob.id, status)}>Back to fabric</Button></div>
           </>
         )}
       </div>

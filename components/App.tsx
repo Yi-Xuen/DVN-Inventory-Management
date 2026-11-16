@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { FABRIC, Job, LIKELIHOODS, ROLLS, RECEIVED_TOTAL, STATUS_LABEL, Status } from "@/lib/data";
 import { ON_HAND, StoreProvider, fmt, proposalLabel, useStore } from "@/lib/store";
 import { CalcSheet, ReserveSheet } from "./Sheets";
+import { ArrowLeft2, ArrowRight2 } from "iconsax-react";
+import { Button } from "./ui/Button";
+import { Card } from "./ui/Card";
+import { Pill } from "./ui/Pill";
 
 function useHash() {
   const [h, setH] = useState("");
@@ -47,7 +51,7 @@ function Shell() {
 function TopBar({ to, sup, title }: { to: string; sup: string; title: string }) {
   return (
     <>
-      <div className="topbar"><a className="back" href={`#/${to}`} aria-label="Back">←</a></div>
+      <div className="topbar"><a className="back" href={`#/${to}`} aria-label="Back"><ArrowLeft2 size={24} color="currentColor" /></a></div>
       <div><div className="sup">{sup}</div><h1 className="ttl">{title}</h1></div>
     </>
   );
@@ -88,7 +92,7 @@ function Overview() {
       <div className="topbar" style={{ minHeight: 8 }} />
       <div><div className="sup">{FABRIC.brand}</div><h1 className="ttl">{FABRIC.name}</h1></div>
 
-      <div className="card">
+      <Card>
         <div className="bal-lab">Balance</div>
         <div className="bal-row">
           <span className={`bal-num ${bal < 0 ? "neg" : ""}`}>{bal < 0 ? "− " : ""}{fmt(Math.abs(bal))}</span>
@@ -119,7 +123,7 @@ function Overview() {
           )}
         </div>
         {bal < 0 && <div className="buy"><span>To buy</span><span className="num">{fmt(Math.abs(bal))}</span></div>}
-      </div>
+      </Card>
 
       <NavCard to="on-hand" title="On hand" v={fmt(ON_HAND)} small={`${ROLLS.length} rolls in factory`} />
       <NavCard to="worksheet" title="Worksheet" v={fmt(ws)} small={`${count("worksheet")} jobs`} />
@@ -127,7 +131,7 @@ function Overview() {
       <NavCard to="proposal" title="Proposal" v={fmt(prop)} small={`${count("proposal")} quotes`} />
       <NavCard to="used" title="Used" v={fmt(used)} small={`${count("used")} worksheets completed`} />
 
-      <div className="stickybtn"><button className="btn" onClick={() => setReserving(true)}>Reserve this fabric</button></div>
+      <div className="stickybtn"><Button onClick={() => setReserving(true)}>Reserve this fabric</Button></div>
 
       {calc && <CalcSheet onClose={() => setCalc(false)} />}
       {reserving && (
@@ -142,9 +146,9 @@ function Overview() {
 
 function NavCard({ to, title, v, small }: { to: string; title: string; v: string; small: string }) {
   return (
-    <a className="card nav" href={`#/${to}`}>
-      <b>{title}</b><span className="v">{v} &gt;</span><small>{small}</small>
-    </a>
+    <Card className="nav" href={`#/${to}`}>
+      <b>{title}</b><span className="v inline-flex items-center gap-1">{v}<ArrowRight2 size={20} color="currentColor" aria-hidden="true" /></span><small>{small}</small>
+    </Card>
   );
 }
 
@@ -157,12 +161,12 @@ function OnHand() {
       <p className="cap">Rolls</p>
       <div className="list">
         {ROLLS.map((r) => (
-          <div className="card roll" key={r.code}>
-            <span className="code">{r.code} {r.short && <span className="pill neg">Short end</span>}</span>
+          <Card className="roll" key={r.code}>
+            <span className="code">{r.code} {r.short && <Pill tone="danger">Short end</Pill>}</span>
             <span className="v">{fmt(r.left)}</span>
             <small>Received {r.month} · {fmt(r.received)}</small>
             <div className="rb"><i style={{ width: `${(r.left / r.received) * 100}%` }} /></div>
-          </div>
+          </Card>
         ))}
       </div>
       <p className="sub">Only the factory can change roll amounts.</p>
@@ -209,14 +213,14 @@ function JobCard({ j, inStock }: { j: Job; inStock: boolean }) {
       )}
       {!isUsed && (
         <div className="job-foot">
-          {j.status === "worksheet" && <span className={`pill ${j.sewing === "Queued for sewing" ? "soft" : ""}`}>{j.sewing}</span>}
-          {j.status === "proposal" && <span className={`pill ${inStock ? "" : "neg"}`}>{inStock ? "In stock" : "Backorder"}</span>}
-          <span className="go">&gt;</span>
+          {j.status === "worksheet" && <Pill tone={j.sewing === "Queued for sewing" ? "soft" : "neutral"}>{j.sewing}</Pill>}
+          {j.status === "proposal" && <Pill tone={inStock ? "neutral" : "danger"}>{inStock ? "In stock" : "Backorder"}</Pill>}
+          <span className="go inline-flex"><ArrowRight2 size={20} color="currentColor" aria-hidden="true" /></span>
         </div>
       )}
     </>
   );
-  return isUsed ? <div className="card job">{body}</div> : <a className="card job" href={`#/job/${j.id}`}>{body}</a>;
+  return isUsed ? <Card className="job">{body}</Card> : <Card className="job" href={`#/job/${j.id}`}>{body}</Card>;
 }
 
 /* ---------- 3b. Job detail ---------- */
@@ -227,30 +231,30 @@ function JobDetail({ id }: { id: string }) {
   return (
     <>
       <TopBar to={j.status} sup={j.wsNo ? `WS ${j.wsNo}` : STATUS_LABEL[j.status]} title={`${j.customer}, ${j.location}`} />
-      <div><span className={`pill ${j.sewing === "Queued for sewing" ? "soft" : ""}`}>{j.sewing ?? STATUS_LABEL[j.status]}</span></div>
-      <div className="card">
+      <div><Pill tone={j.sewing === "Queued for sewing" ? "soft" : "neutral"}>{j.sewing ?? STATUS_LABEL[j.status]}</Pill></div>
+      <Card>
         <dl className="meta">
           <div><dt>Reserved by</dt><dd>{j.by}</dd></div>
           <div><dt>Est. handover</dt><dd>{j.handover ?? "Not set"}</dd></div>
           {j.likelihood && <div><dt>Likely to confirm</dt><dd>{j.likelihood}</dd></div>}
           {j.meta?.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
         </dl>
-      </div>
-      <div className="card">
+      </Card>
+      <Card>
         <p className="cap">{FABRIC.name}</p>
         <div className="lines">
           {j.rooms ? j.rooms.map((r) => <div key={r.ref}><span>{r.ref} · {r.name}</span><span className="num">{fmt(r.m)}</span></div>) : null}
           <div className="tot"><span>Reserved</span><span className="num">{fmt(j.metres)}</span></div>
         </div>
-      </div>
+      </Card>
       {j.otherFabric?.map((f) => (
-        <div className="card" key={f.ref}>
+        <Card key={f.ref}>
           <p className="cap">{f.name}</p>
           <div className="lines">
             <div><span>{f.ref} · {f.room}</span><span className="num">TBC</span></div>
             <div className="tot"><span>Reserved</span><span className="num">TBC</span></div>
           </div>
-        </div>
+        </Card>
       ))}
       <div className="log"><p className="cap">Updates</p>{j.log.map((l) => <p key={l}>{l}</p>)}</div>
     </>

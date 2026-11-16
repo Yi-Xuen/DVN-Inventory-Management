@@ -1,5 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Montserrat } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
+
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "600", "700"], variable: "--font-montserrat" });
+
+// Follow the OS theme: the design-system tokens switch on [data-theme="dark"].
+const themeScript = `(function(){var m=matchMedia("(prefers-color-scheme: dark)");function s(){document.documentElement.dataset.theme=m.matches?"dark":"light"}s();m.addEventListener("change",s)})()`;
 
 export const metadata: Metadata = {
   title: "Fabric Stock · Prototype",
@@ -15,16 +22,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
-        />
-      </head>
-      <body>{children}</body>
+    <html lang="en" className={montserrat.variable} suppressHydrationWarning>
+      <body>
+        <Script id="theme-sync" strategy="beforeInteractive">{themeScript}</Script>
+        {children}
+      </body>
     </html>
   );
 }

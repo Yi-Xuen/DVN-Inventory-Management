@@ -1,0 +1,249 @@
+{
+  "radius": {
+    "0": {
+      "$type": "dimension",
+      "$value": "0px",
+      "$extensions": {
+        "design-skills": {
+          "rule": "inner radius = max(0, outer radius - padding)",
+          "innerRadiusByPadding": {
+            "space-1": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-2": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-3": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-4": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-5": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-6": {
+              "value": "0px",
+              "token": "radius-0"
+            }
+          }
+        }
+      }
+    },
+    "1": {
+      "$type": "dimension",
+      "$value": "4px",
+      "$extensions": {
+        "design-skills": {
+          "rule": "inner radius = max(0, outer radius - padding)",
+          "innerRadiusByPadding": {
+            "space-1": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-2": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-3": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-4": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-5": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-6": {
+              "value": "0px",
+              "token": "radius-0"
+            }
+          }
+        }
+      }
+    },
+    "2": {
+      "$type": "dimension",
+      "$value": "8px",
+      "$extensions": {
+        "design-skills": {
+          "rule": "inner radius = max(0, outer radius - padding)",
+          "innerRadiusByPadding": {
+            "space-1": {
+              "value": "4px",
+              "token": "radius-1"
+            },
+            "space-2": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-3": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-4": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-5": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-6": {
+              "value": "0px",
+              "token": "radius-0"
+            }
+          }
+        }
+      }
+    },
+    "3": {
+      "$type": "dimension",
+      "$value": "12px",
+      "$extensions": {
+        "design-skills": {
+          "rule": "inner radius = max(0, outer radius - padding)",
+          "innerRadiusByPadding": {
+            "space-1": {
+              "value": "8px",
+              "token": "radius-2"
+            },
+            "space-2": {
+              "value": "4px",
+              "token": "radius-1"
+            },
+            "space-3": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-4": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-5": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-6": {
+              "value": "0px",
+              "token": "radius-0"
+            }
+          }
+        }
+      }
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": "16px",
+      "$extensions": {
+        "design-skills": {
+          "rule": "inner radius = max(0, outer radius - padding)",
+          "innerRadiusByPadding": {
+            "space-1": {
+              "value": "12px",
+              "token": "radius-3"
+            },
+            "space-2": {
+              "value": "8px",
+              "token": "radius-2"
+            },
+            "space-3": {
+              "value": "4px",
+              "token": "radius-1"
+            },
+            "space-4": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-5": {
+              "value": "0px",
+              "token": "radius-0"
+            },
+            "space-6": {
+              "value": "0px",
+              "token": "radius-0"
+            }
+          }
+        }
+      }
+    },
+    "6": {
+      "$type": "dimension",
+      "$value": "24px",
+      "$extensions": {
+        "design-skills": {
+          "rule": "inner radius = max(0, outer radius - padding)",
+          "innerRadiusByPadding": {
+            "space-1": {
+              "value": "20px",
+              "token": null
+            },
+            "space-2": {
+              "value": "16px",
+              "token": "radius-4"
+            },
+            "space-3": {
+              "value": "12px",
+              "token": "radius-3"
+            },
+            "space-4": {
+              "value": "8px",
+              "token": "radius-2"
+            },
+            "space-5": {
+              "value": "4px",
+              "token": "radius-1"
+            },
+            "space-6": {
+              "value": "0px",
+              "token": "radius-0"
+            }
+          }
+        }
+      }
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "9999px",
+      "$extensions": {
+        "design-skills": {
+          "rule": "Pill or circle. Nested elements inside a full-radius container keep radius-full.",
+          "innerRadiusByPadding": {
+            "space-1": {
+              "value": "9999px",
+              "token": "radius-full"
+            },
+            "space-2": {
+              "value": "9999px",
+              "token": "radius-full"
+            },
+            "space-3": {
+              "value": "9999px",
+              "token": "radius-full"
+            },
+            "space-4": {
+              "value": "9999px",
+              "token": "radius-full"
+            },
+            "space-5": {
+              "value": "9999px",
+              "token": "radius-full"
+            },
+            "space-6": {
+              "value": "9999px",
+              "token": "radius-full"
+            }
+          }
+        }
+      }
+    }
+  }
+}
