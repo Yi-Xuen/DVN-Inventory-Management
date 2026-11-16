@@ -93,11 +93,11 @@ Montserrat: Regular 400, Semibold 600, Bold 700 only. Base is 16px (Body 2 and H
 
 | Style | Mobile | Desktop | Weight | Letter-spacing |
 |---|---|---|---|---|
-| H1 | 32/36 | 36/40 | Bold | -2% |
-| H2 | 24/28 | 28/32 | Bold | -2% |
-| H3 | 20/24 | 20/24 | Bold | 0 |
-| H4 | 16/20 | 16/20 | Bold | 0 |
-| H5 | 14/16 | 14/16 | Bold | 0 |
+| H1 | 32/36 | 36/40 | Semibold | -2% |
+| H2 | 24/28 | 28/32 | Semibold | -2% |
+| H3 | 20/24 | 20/24 | Semibold | 0 |
+| H4 | 16/20 | 16/20 | Semibold | 0 |
+| H5 | 14/16 | 14/16 | Semibold | 0 |
 | Body 1 | 20/28 | same | Regular (+ semibold, bold variants) | 0 |
 | Body 2 | 16/24 | same | Regular (+ semibold, bold) | 0 |
 | Body 3 | 14/20 | same | Regular (+ semibold, bold) | 0 |
@@ -163,6 +163,14 @@ Color: `neutral.950` (#141412), never black. X offset and spread are 0. Each lev
 | shadow-3 | 8 / 16 | 10% / 20% | Sticky headers, FABs |
 | shadow-4 | 12 / 24 | 12% / 24% | Drawers |
 | shadow-5 | 16 / 32 | 14% / 28% | Modals |
+
+## Surfaces and fields
+Decided 2026-11-16, after reviewing modern iOS references.
+- **Cards have no outline.** A card is the surface fill (`bg-surface`), radius-3 and shadow-1, so it lifts off the page by tone and a very light shadow. Do not add a border.
+- **Fields use a very light border until active.** Text inputs, number inputs, selects, search and the month picker use `border-subtle` at rest and `border-primary` on focus. Errors use `border-danger`. The `field` icon button matches them.
+- **Status pills are quiet.** Every pill is a soft tint with coloured text (`bg-danger`, `text-danger` and so on) and no outline. No solid dark fills.
+- **Chosen tiles** (a tile used as a view picker) get a light green tint (`bg-success`), a light green ring (`border-primary-subtle`) and green label and number (`text-primary-bright`). Tiles that are not chosen show their text in `text-subtle`.
+- **One filter button.** Filters and sort live behind a single icon button with a count badge (`FilterButton`), not a row of chips.
 
 ## Resources used
 Palette: primary color supplied by the designer as hex (no inspo-page or Adobe wheel pairing recorded). Font: Montserrat chosen directly by the designer.

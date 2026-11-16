@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { FABRIC, LIKELIHOODS, STATUS_LABEL, Status, handoverOptions, RECEIVED_TOTAL, USED_TOTAL } from "@/lib/data";
-import { CalcPrefs, ON_HAND, fmt, proposalLabel, useStore } from "@/lib/store";
+import { CURRENT_USER, LIKELIHOODS, STATUS_LABEL, fabricName, handoverOptions } from "@/lib/data";
+import { CalcPrefs, fmt, proposalLabel, useStore } from "@/lib/store";
 import { ArrowRight2 } from "iconsax-react";
 import { Button } from "./atoms/Button";
 import { Slider } from "./atoms/Slider";
@@ -11,7 +11,8 @@ import { Card } from "./atoms/Card";
 import { TextField, Select } from "./atoms/TextField";
 import { SegmentedControl } from "./molecules/SegmentedControl";
 
-function useSheetBehaviour(onClose: () => void) {
+/** Locks page scroll, closes on Escape and keeps the overlay sized to the visible area when the phone keyboard opens. */
+export function useSheetBehaviour(onClose: () => void) {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -43,17 +44,18 @@ function useSheetBehaviour(onClose: () => void) {
 /* ---------- Balance calculator ---------- */
 const LEVELS_DESC = [...LIKELIHOODS].reverse(); // Very likely, Likely, Unlikely
 
-export function CalcSheet({ onClose }: { onClose: () => void }) {
-  const { prefs, setPrefs, sum, sumLevel } = useStore();
+export function CalcSheet({ fabricId, onClose }: { fabricId: string; onClose: () => void }) {
+  const { prefs, setPrefs, stats } = useStore();
+  const s = stats(fabricId);
   const [draft, setDraft] = useState<CalcPrefs>(prefs);
   useSheetBehaviour(onClose);
 
   const onCount = LEVELS_DESC.filter((l) => draft.levels[l]).length;
 
   const setAllLevels = (v: boolean) => setDraft({ ...draft, levels: { "Very likely": v, Likely: v, Unlikely: v } });
-  const propTaken = LEVELS_DESC.reduce((a, l) => a + (draft.levels[l] ? sumLevel(l) : 0), 0);
+  const propTaken = LEVELS_DESC.reduce((a, l) => a + (draft.levels[l] ? s.levels[l] : 0), 0);
 
-  let bal = ON_HAND - (draft.worksheet ? sum("worksheet") : 0) - (draft.confirmed ? sum("confirmed") : 0) - propTaken;
+  const bal = s.onHand - (draft.worksheet ? s.worksheet : 0) - (draft.confirmed ? s.confirmed : 0) - propTaken;
   const parts = ["On hand", ...(["worksheet", "confirmed"] as const).filter((k) => draft[k]), ...(proposalLabel(draft) ? [proposalLabel(draft)] : [])];
 
   return (
@@ -64,14 +66,14 @@ export function CalcSheet({ onClose }: { onClose: () => void }) {
         <h2>Calculate balance</h2>
         <p className="sub">Tick what to take away from the stock on hand.</p>
         <div className="fixed-row">
-          <div><b>On hand</b><small>Received {RECEIVED_TOTAL} m − used {USED_TOTAL} m</small></div>
-          <span className="v">{fmt(ON_HAND)}</span>
+          <div><b>On hand</b><small>Received {fmt(s.received)} − used {fmt(s.received - s.onHand)}</small></div>
+          <span className="v">{fmt(s.onHand)}</span>
         </div>
         {([["worksheet", "Worksheet", "sw-ws", "queued or sewing"], ["confirmed", "Confirmed", "sw-conf", "no worksheet yet"]] as const).map(([k, label, sw, note]) => (
           <label className="opt" key={k}>
             <Checkbox checked={draft[k]} onChange={(e) => setDraft({ ...draft, [k]: e.target.checked })} aria-label={label} />
             <div><b><i className={`sw ${sw}`} />{label}</b><small>{note}</small></div>
-            <span className="v">− {fmt(sum(k))}</span>
+            <span className="v">− {fmt(s[k])}</span>
           </label>
         ))}
         <div className="opt-group">
@@ -85,7 +87,7 @@ export function CalcSheet({ onClose }: { onClose: () => void }) {
               <label className="opt child" key={l}>
                 <Checkbox checked={draft.levels[l]} onChange={(e) => setDraft({ ...draft, levels: { ...draft.levels, [l]: e.target.checked } })} aria-label={l} />
                 <div><b>{l}</b></div>
-                <span className="v">− {fmt(sumLevel(l))}</span>
+                <span className="v">− {fmt(s.levels[l])}</span>
               </label>
             ))}
           </div>
@@ -129,11 +131,14 @@ function LikelihoodHelp({ onClose }: { onClose: () => void }) {
 }
 
 /* ---------- Reserve flow ---------- */
-type RStatus = Exclude<Status, "used">;
+type RStatus = "proposal" | "confirmed" | "worksheet";
 const TABS: RStatus[] = ["proposal", "confirmed", "worksheet"];
 
-export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone: (id: string, status: RStatus) => void }) {
-  const { avail, reserve } = useStore();
+export function ReserveSheet({ fabricId, onClose, onDone }: { fabricId: string; onClose: () => void; onDone: (id: string, status: RStatus) => void }) {
+  const { stats, reserve, fabric } = useStore();
+  const avail = stats(fabricId).avail;
+  const f = fabric(fabricId);
+  const name = f ? fabricName(f) : "";
   const [help, setHelp] = useState(false);
   const [pickHo, setPickHo] = useState(false);
   const HANDOVER = handoverOptions();
@@ -167,7 +172,7 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
   const submit = () => {
     setTryNext(true);
     if (missing || metres <= 0) return;
-    const j = reserve({ status, metres, customer: customer.trim(), location: location.trim(), handover: handover || null, likelihood: status === "proposal" ? LIKELIHOODS[likeIdx] : undefined });
+    const j = reserve({ fabricId, status, metres, customer: customer.trim(), location: location.trim(), handover: handover || null, likelihood: status === "proposal" ? LIKELIHOODS[likeIdx] : undefined });
     setDoneJob({ id: j.id });
     setStep("done");
   };
@@ -185,8 +190,8 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
               </button>
             </div>
             <Card className="fabric-card" aria-label="Fabric being reserved">
-              <span className="sup">{FABRIC.brand}</span>
-              <b>{FABRIC.name}</b>
+              <span className="sup">{f?.supplier}</span>
+              <b>{name}</b>
             </Card>
           </>
         )}
@@ -270,18 +275,18 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
             <div className="done">
               <div className="tick" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 16l6 6 11-13" /></svg></div>
               <h2>Reserved</h2>
-              <p className="sub">{fmt(metres)} of {FABRIC.name} is reserved as a {STATUS_LABEL[status]} {status === "proposal" ? "quote" : "job"}.</p>
+              <p className="sub">{fmt(metres)} of {name} is reserved as a {STATUS_LABEL[status]} {status === "proposal" ? "quote" : "job"}.</p>
             </div>
             <Card>
               <dl className="meta">
                 <div><dt>Customer</dt><dd>{customer}</dd></div>
                 <div><dt>Location</dt><dd>{location}</dd></div>
                 <div><dt>Est. handover</dt><dd>{handover || "Not set"}</dd></div>
-                <div><dt>Reserved by</dt><dd>Jason</dd></div>
+                <div><dt>Reserved by</dt><dd>{CURRENT_USER}</dd></div>
                 {status === "proposal" && <div><dt>Likely to confirm</dt><dd>{LIKELIHOODS[likeIdx]}</dd></div>}
               </dl>
             </Card>
-            <div className="screen-foot"><Button onClick={() => onDone(doneJob.id, status)}>Back to fabric</Button></div>
+            <div className="screen-foot"><Button onClick={() => onDone(doneJob.id, status)}>Done</Button></div>
           </>
         )}
       </div>

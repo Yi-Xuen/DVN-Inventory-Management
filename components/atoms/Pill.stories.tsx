@@ -14,6 +14,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Neutral: Story = {};
 export const Soft: Story = { args: { tone: 'soft', children: 'Queued for sewing' } };
+/** Pills sit on cards, so check the tints on the card surface. */
 export const Danger: Story = { args: { tone: 'danger', children: 'Backorder' } };
 export const Dark: Story = { args: { tone: 'danger', children: 'Short end' }, tags: ['!autodocs'], globals: { theme: 'dark' } };
 export const AllTones: Story = {

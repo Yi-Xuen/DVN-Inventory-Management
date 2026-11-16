@@ -25,6 +25,7 @@
   --color-fg-disabled: var(--text-disabled);
   --color-fg-inverse: var(--text-inverse);
   --color-fg-primary: var(--text-primary);
+  --color-fg-primary-bright: var(--text-primary-bright);
   --color-fg-on-primary: var(--text-on-primary);
   --color-fg-success: var(--text-success);
   --color-fg-warning: var(--text-warning);
@@ -35,6 +36,7 @@
   --color-line-subtle: var(--border-subtle);
   --color-line-strong: var(--border-strong);
   --color-line-primary: var(--border-primary);
+  --color-line-primary-subtle: var(--border-primary-subtle);
   --color-line-success: var(--border-success);
   --color-line-warning: var(--border-warning);
   --color-line-danger: var(--border-danger);

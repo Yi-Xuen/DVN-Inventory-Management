@@ -3,8 +3,8 @@ import type { ButtonHTMLAttributes } from "react";
 export type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label"> & {
   /** Required: an icon-only button needs a spoken name. */
   "aria-label": string;
-  /** ghost = no border (default); outlined = bordered; primary = primary fill */
-  variant?: "ghost" | "outlined" | "primary";
+  /** ghost = no border (default); outlined = bordered; field = surface fill with the same very light border as a text field; primary = primary fill */
+  variant?: "ghost" | "outlined" | "field" | "primary";
   /** md = 44px (default, comfortable touch target); sm = 40px */
   size?: "sm" | "md";
 };
@@ -12,6 +12,7 @@ export type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "ari
 const VARIANTS = {
   ghost: "bg-transparent text-icon hover:bg-raised active:bg-raised",
   outlined: "bg-surface text-icon border border-line-strong hover:bg-raised active:bg-raised",
+  field: "bg-surface text-icon border border-line-subtle hover:bg-raised active:bg-raised",
   primary: "bg-primary text-fg-on-primary hover:bg-primary-hover active:bg-primary-active",
 };
 

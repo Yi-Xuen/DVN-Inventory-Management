@@ -16,6 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Ghost: Story = {};
 export const Outlined: Story = { args: { variant: 'outlined', 'aria-label': 'Close', children: <Icon icon={CloseCircle} /> } };
+export const Field: Story = { args: { variant: 'field', 'aria-label': 'Scan QR code', children: <Icon icon={ScanBarcode} /> } };
 export const Primary: Story = { args: { variant: 'primary', 'aria-label': 'Scan QR code', children: <Icon icon={ScanBarcode} className="text-fg-on-primary" /> } };
 export const Small: Story = { args: { size: 'sm', variant: 'outlined' } };
 export const Disabled: Story = { args: { disabled: true, variant: 'outlined' } };

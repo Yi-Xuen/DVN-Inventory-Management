@@ -31,7 +31,7 @@ export function SearchBar({ value, onChange, onSubmit, placeholder = "Search fab
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="body-2 min-h-12 w-full rounded-ds-2 border border-line-strong bg-surface px-10 text-fg placeholder:text-fg-subtle focus:border-line-primary [&::-webkit-search-cancel-button]:appearance-none"
+        className="body-2 min-h-12 w-full rounded-ds-2 border border-line-subtle bg-surface px-10 text-fg placeholder:text-fg-subtle focus:border-line-primary [&::-webkit-search-cancel-button]:appearance-none"
       />
       {value && (
         <button

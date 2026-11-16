@@ -84,6 +84,7 @@
   --border-subtle: var(--neutral-200);
   --border-strong: var(--neutral-400);
   --border-primary: var(--green-700);
+  --border-primary-subtle: var(--green-300);
   --border-success: var(--green-700);
   --border-warning: var(--yellow-500);
   --border-danger: var(--red-500);
@@ -98,6 +99,7 @@
   --text-disabled: var(--neutral-400);
   --text-inverse: var(--neutral-50);
   --text-primary: var(--green-900);
+  --text-primary-bright: var(--green-700);
   --text-on-primary: var(--neutral-50);
   --text-success: var(--green-700);
   --text-warning: var(--yellow-800);
@@ -118,6 +120,7 @@
   --border-default: var(--neutral-700);
   --border-subtle: var(--neutral-800);
   --border-strong: var(--neutral-600);
+  --border-primary-subtle: var(--green-700);
   --border-success: var(--green-500);
   --icon-default: var(--neutral-50);
   --icon-subtle: var(--neutral-400);
@@ -130,6 +133,7 @@
   --text-disabled: var(--neutral-600);
   --text-inverse: var(--neutral-950);
   --text-primary: var(--green-500);
+  --text-primary-bright: var(--green-400);
   --text-success: var(--green-400);
   --text-warning: var(--yellow-500);
   --text-danger: var(--red-400);
@@ -144,23 +148,23 @@
   --font-weight-bold: 700;
   --heading-1-font-size: 32px;
   --heading-1-line-height: 36px;
-  --heading-1-font-weight: 700;
+  --heading-1-font-weight: 600;
   --heading-1-letter-spacing: -0.02em;
   --heading-2-font-size: 24px;
   --heading-2-line-height: 28px;
-  --heading-2-font-weight: 700;
+  --heading-2-font-weight: 600;
   --heading-2-letter-spacing: -0.02em;
   --heading-3-font-size: 20px;
   --heading-3-line-height: 24px;
-  --heading-3-font-weight: 700;
+  --heading-3-font-weight: 600;
   --heading-3-letter-spacing: 0;
   --heading-4-font-size: 16px;
   --heading-4-line-height: 20px;
-  --heading-4-font-weight: 700;
+  --heading-4-font-weight: 600;
   --heading-4-letter-spacing: 0;
   --heading-5-font-size: 14px;
   --heading-5-line-height: 16px;
-  --heading-5-font-weight: 700;
+  --heading-5-font-weight: 600;
   --heading-5-letter-spacing: 0;
   --body-1-font-size: 20px;
   --body-1-line-height: 28px;
@@ -248,23 +252,23 @@
   :root {
     --heading-1-font-size: 36px;
     --heading-1-line-height: 40px;
-    --heading-1-font-weight: 700;
+    --heading-1-font-weight: 600;
     --heading-1-letter-spacing: -0.02em;
     --heading-2-font-size: 28px;
     --heading-2-line-height: 32px;
-    --heading-2-font-weight: 700;
+    --heading-2-font-weight: 600;
     --heading-2-letter-spacing: -0.02em;
     --heading-3-font-size: 20px;
     --heading-3-line-height: 24px;
-    --heading-3-font-weight: 700;
+    --heading-3-font-weight: 600;
     --heading-3-letter-spacing: 0;
     --heading-4-font-size: 16px;
     --heading-4-line-height: 20px;
-    --heading-4-font-weight: 700;
+    --heading-4-font-weight: 600;
     --heading-4-letter-spacing: 0;
     --heading-5-font-size: 14px;
     --heading-5-line-height: 16px;
-    --heading-5-font-weight: 700;
+    --heading-5-font-weight: 600;
     --heading-5-letter-spacing: 0;
   }
 }
