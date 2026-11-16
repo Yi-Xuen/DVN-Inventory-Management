@@ -14,15 +14,15 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   loading?: boolean;
 };
 
-// Primary hover/pressed use the next two primary steps (bg-primary-hover, bg-primary-active); the outlined tints are mixed from the text colour.
+// Primary sits at shadow-1 and drops to none when pressed or disabled. Hover/pressed use the next two primary steps (bg-primary-hover, bg-primary-active); the outlined tints are mixed from the text colour.
 const VARIANTS = {
-  primary: "bg-primary text-fg-on-primary border-0 disabled:bg-disabled disabled:text-fg-disabled",
+  primary: "bg-primary text-fg-on-primary border-0 shadow-ds-1 disabled:bg-disabled disabled:text-fg-disabled disabled:shadow-none",
   secondary: "bg-transparent text-fg border border-line-strong disabled:border-line-subtle disabled:text-fg-disabled",
   danger: "bg-transparent text-fg-danger border border-line-danger disabled:border-line-subtle disabled:text-fg-disabled",
 };
 
 const INTERACTIVE = {
-  primary: "hover:bg-primary-hover active:bg-primary-active",
+  primary: "hover:bg-primary-hover active:bg-primary-active active:shadow-none",
   secondary:
     "hover:bg-[color-mix(in_srgb,transparent,var(--text-default)_6%)] active:bg-[color-mix(in_srgb,transparent,var(--text-default)_12%)]",
   danger: "hover:bg-danger-tint active:bg-danger-tint",

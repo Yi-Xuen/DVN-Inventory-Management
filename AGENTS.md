@@ -20,3 +20,16 @@ Read `design.md` (product context) and `design-system/design.md` (visual foundat
 - **Mobile-first, three sizes only.** Write the mobile layout with no prefix, then add `md:` (tablet, 768px) and `lg:` (desktop, 1024px). No other breakpoints exist (see `app/design-system/theme.css`). Give each responsive component Mobile, Tablet and Desktop stories using the `viewport` global.
 - **Docs pages show light mode.** A story that forces dark mode (`globals: { theme: 'dark' }`) must also carry `tags: ['!autodocs']`, so it stays in the sidebar but out of the component's Docs page.
 - **Keep Storybook in sync.** Whenever a component is added or changed, add or update its `*.stories.tsx` file next to it in the same change, covering its variants and states, so it can be previewed with `npm run storybook`.
+
+## UI quality rules
+
+Read the "UI craft guide" and "Audit findings" in `design-system/design.md` before designing or restyling a screen. In short:
+
+- **Semantic tokens only in components and CSS.** Do not use primitives (`--green-500`, `--neutral-950`) or the legacy aliases in `app/globals.css` (`--bg`, `--ink`, `--muted`, `--line`, `--neg`, `--c-*`) in new code. If no semantic token fits, add one (JSON and CSS together) and record it in `design-system/design.md`.
+- **No arbitrary values.** No `[12px]`, inline `color-mix`, `border-2` or `outline-2`; use spacing, radius, icon and border-width tokens. Add the token first.
+- **Hierarchy before decoration.** One primary action per view, one primary piece of information per screen. Separate with spacing and surface steps before borders, and borders before shadows. Emphasise with weight and colour before size.
+- **Every interactive element has five states:** default, hover, pressed, focus-visible and disabled. Add `loading`, empty and error states to every list and form.
+- **Accessibility numbers:** text 4.5:1, non-text UI (field borders, focus rings, icons, chart fills) 3:1, tap targets 44px or more on mobile. Do not rely on colour alone for meaning.
+- **Check light and dark** for every change. In dark mode depth comes from lighter surfaces, not shadows.
+- **Do not edit or audit `dvn-inventory-management/`.** It is a stale duplicate of this project. Work only in `app/`, `components/` and `design-system/`.
+- **Changing a token:** update `tokens/*.json`, `tokens.css` and `design-system/design.md` in one commit, re-check contrast in both modes, and run the test screen (`app/design-system`).
