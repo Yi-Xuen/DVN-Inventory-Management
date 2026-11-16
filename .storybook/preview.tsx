@@ -9,6 +9,15 @@ const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '600', '700'
 const preview: Preview = {
   parameters: {
     layout: 'fullscreen',
+    // The three sizes the components are designed for (see the breakpoints in app/design-system/theme.css).
+    viewport: {
+      options: {
+        mobile: { name: 'Mobile (base, 375)', styles: { width: '375px', height: '812px' }, type: 'mobile' },
+        tablet: { name: 'Tablet (md, 768)', styles: { width: '768px', height: '1024px' }, type: 'tablet' },
+        desktop: { name: 'Desktop (lg, 1280)', styles: { width: '1280px', height: '800px' }, type: 'desktop' },
+      },
+    },
+    options: { storySort: { order: ['Design tokens', 'Atoms', 'Molecules', 'Organisms', '*'] } },
     controls: {
       matchers: {
        color: /(background|color)$/i,
@@ -35,11 +44,17 @@ const preview: Preview = {
 
   decorators: [
     (Story, context) => {
-      document.documentElement.dataset.theme = context.globals.theme ?? 'light'
+      const theme = context.globals.theme ?? 'light'
+      // A Docs page renders every story of a component in one document, so a story that forces dark
+      // (globals: { theme: 'dark' }) must not switch the whole page. There, the theme is scoped to each
+      // story's own wrapper and the page itself stays light. A single story view themes the whole page.
+      document.documentElement.dataset.theme = context.viewMode === 'docs' ? 'light' : theme
       document.documentElement.classList.add(montserrat.variable)
       return (
         <StoreProvider>
-          <Story />
+          <div data-theme={theme} className="text-fg" style={{ colorScheme: theme }}>
+            <Story />
+          </div>
         </StoreProvider>
       )
     },

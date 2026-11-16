@@ -17,7 +17,7 @@ export const Calculator: Story = {
   },
 };
 
-export const CalculatorDark: Story = { globals: { theme: 'dark' } };
+export const CalculatorDark: Story = { tags: ['!autodocs'], globals: { theme: 'dark' } };
 
 export const Reserve: Story = {
   render: (args) => <ReserveSheet onClose={args.onClose} onDone={fn()} />,

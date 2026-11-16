@@ -44,7 +44,7 @@ export function TestScreen() {
             </div>
             <p className="body-2 text-fg-subtle">Linen blend, 48 m remaining. Reserved for 2 orders.</p>
             <div className="flex flex-wrap gap-2">
-              <button className="label-2 flex items-center gap-2 rounded-ds-2 bg-brand px-4 py-3 text-fg-on-brand">
+              <button className="label-2 flex items-center gap-2 rounded-ds-2 bg-primary px-4 py-3 text-fg-on-primary">
                 <Home2 size={20} variant="Bold" color="currentColor" /> Reserve
               </button>
               <button className="label-2 flex items-center gap-2 rounded-ds-2 border border-line-strong px-4 py-3">
@@ -94,7 +94,7 @@ export function TestScreen() {
         <div className="flex flex-wrap items-end gap-4">
           {spaces.map((n) => (
             <div key={n} className="flex flex-col items-center gap-1">
-              <div className="bg-brand" style={{ width: `var(--space-${n})`, height: `var(--space-${n})` }} />
+              <div className="bg-primary" style={{ width: `var(--space-${n})`, height: `var(--space-${n})` }} />
               <span className="body-4 text-fg-subtle">{n}</span>
             </div>
           ))}

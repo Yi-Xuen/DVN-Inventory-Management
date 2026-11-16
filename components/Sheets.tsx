@@ -3,13 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { FABRIC, LIKELIHOODS, STATUS_LABEL, Status, handoverOptions, RECEIVED_TOTAL, USED_TOTAL } from "@/lib/data";
 import { CalcPrefs, ON_HAND, fmt, proposalLabel, useStore } from "@/lib/store";
 import { ArrowRight2 } from "iconsax-react";
-import { Button } from "./ui/Button";
-import { Slider } from "./ui/Slider";
-import { MonthYearPicker } from "./ui/MonthYearPicker";
-import { Checkbox } from "./ui/Checkbox";
-import { Card } from "./ui/Card";
-import { Input, Select } from "./ui/Field";
-import { SegmentedControl } from "./ui/SegmentedControl";
+import { Button } from "./atoms/Button";
+import { Slider } from "./atoms/Slider";
+import { MonthYearPicker } from "./molecules/MonthYearPicker";
+import { Checkbox } from "./atoms/Checkbox";
+import { Card } from "./atoms/Card";
+import { TextField, Select } from "./atoms/TextField";
+import { SegmentedControl } from "./molecules/SegmentedControl";
 
 function useSheetBehaviour(onClose: () => void) {
   useEffect(() => {
@@ -235,11 +235,11 @@ export function ReserveSheet({ onClose, onDone }: { onClose: () => void; onDone:
             </div>
             <div className="fld">
               <label className="cap" htmlFor="rs-cust">Customer name</label>
-              <Input id="rs-cust" invalid={tryNext && !customer.trim()} placeholder="e.g. Mrs Tan" autoComplete="off" value={customer} onChange={(e) => setCustomer(e.target.value)} />
+              <TextField id="rs-cust" invalid={tryNext && !customer.trim()} placeholder="e.g. Mrs Tan" autoComplete="off" value={customer} onChange={(e) => setCustomer(e.target.value)} />
             </div>
             <div className="fld">
               <label className="cap" htmlFor="rs-loc">Location</label>
-              <Input id="rs-loc" invalid={tryNext && !location.trim()} placeholder="e.g. Tanjung Bungah" autoComplete="off" value={location} onChange={(e) => setLocation(e.target.value)} />
+              <TextField id="rs-loc" invalid={tryNext && !location.trim()} placeholder="e.g. Tanjung Bungah" autoComplete="off" value={location} onChange={(e) => setLocation(e.target.value)} />
             </div>
             <div className="fld">
               <label className="cap" htmlFor="rs-ho">Est. handover date <em className={needHandover ? "req" : ""}>· {needHandover ? "Required" : "Optional"}</em></label>

@@ -53,6 +53,16 @@ const Swatch = ({ name, hex, hsb }: { name: string; hex: string; hsb?: number[] 
   </div>
 );
 
+const PALETTES = [
+  { name: 'green', note: 'Hue 160. The primary colour (#0E2C22 = green.900) and success both come from this palette.' },
+  { name: 'neutral', note: 'Hue 39 (warm tan) at low saturation.' },
+  { name: 'yellow', note: 'Hue 41. Warning.' },
+  { name: 'red', note: 'Hue 7. Danger.' },
+  { name: 'blue', note: 'Hue 206. Chart fill.' },
+  { name: 'purple', note: 'Hue 285. Chart fill.' },
+];
+const CATEGORY = { bg: 'Background', border: 'Border', icon: 'Icon', text: 'Text' };
+
 export const Colors: Story = {
   render: () => {
     const prim = flatten(primitives as Record<string, unknown>);
@@ -62,33 +72,29 @@ export const Colors: Story = {
     const lookup = (name: string) => primHex[name] ?? '#000000';
     return (
       <Page>
-        <Section title="Brand" note="Hue 160 from the chosen colour #0E2C22 (brand.900), 50 to 950, same scale system as the neutrals.">
-          <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
-            {group('brand').map(([n, l]) => <Swatch key={n} name={n} hex={l.$value} hsb={l.hsb} />)}
+        <Section title="Primitives" note="Level 1: raw colours, named by hue and step. Every palette has the same 11 steps (50 to 950), plus white. Components never use these directly.">
+          {PALETTES.map(({ name, note }) => (
+            <div key={name} className="flex flex-col gap-2">
+              <div>
+                <h3 className="heading-4 capitalize">{name}</h3>
+                <p className="body-4 text-fg-subtle">{note}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-4 md:grid-cols-6 lg:grid-cols-11">
+                {group(`${name}.`).map(([n, l]) => <Swatch key={n} name={n} hex={l.$value} hsb={l.hsb} />)}
+              </div>
+            </div>
+          ))}
+          <div className="grid grid-cols-3 gap-4 md:grid-cols-6 lg:grid-cols-11">
+            {group('white').map(([n, l]) => <Swatch key={n} name={n} hex={l.$value} hsb={l.hsb} />)}
           </div>
         </Section>
-        <Section title="Neutrals" note="Hue 39 (warm tan from #C6A463) at low saturation, 50 to 950.">
-          <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
-            {group('neutral').map(([n, l]) => <Swatch key={n} name={n} hex={l.$value} hsb={l.hsb} />)}
-          </div>
-        </Section>
-        <Section title="Interface" note="Success shares the brand hue at higher saturation. Warning and danger use the course defaults.">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {['success', 'warning', 'danger'].flatMap((g) => group(g)).map(([n, l]) => <Swatch key={n} name={n} hex={l.$value} hsb={l.hsb} />)}
-          </div>
-        </Section>
-        <Section title="Chart" note="Chart fills, one tone per mode: base for light mode and bright for dark mode. Hues follow #95CAF3 (206°) and #DC95F3 (285°), deepened in light mode to reach about 3:1 on the page.">
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {group('chart').map(([n, l]) => <Swatch key={n} name={n} hex={l.$value} hsb={l.hsb} />)}
-          </div>
-        </Section>
-        <Section title="Semantic tokens" note="Each token aliases a primitive per mode. Light and dark are shown side by side; the swatches do not depend on the Theme toolbar.">
-          {['text', 'bg', 'border', 'icon', 'chart'].map((cat) => (
+        <Section title="Semantic tokens" note="Level 2: what components use, in four groups: background, border, icon and text. Each token aliases a primitive per mode. Light and dark are shown side by side; the swatches do not depend on the Theme toolbar.">
+          {(['bg', 'border', 'icon', 'text'] as const).map((cat) => (
             <div key={cat} className="overflow-x-auto rounded-ds-3 border border-line bg-surface">
               <table className="w-full min-w-[560px] text-left">
                 <thead>
                   <tr className="body-4-semibold text-fg-subtle">
-                    <th className="p-3">{cat}</th><th className="p-3">Light mode</th><th className="p-3">Dark mode</th>
+                    <th className="p-3">{CATEGORY[cat]}</th><th className="p-3">Light mode</th><th className="p-3">Dark mode</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -184,7 +190,7 @@ export const Spacing: Story = {
             <div key={n} className="flex items-center gap-4">
               <span className="body-3-semibold w-24">space-{n.split('.')[1]}</span>
               <span className="body-3 w-16 text-fg-subtle">{l.$value}</span>
-              <div className="h-4 bg-brand" style={{ width: l.$value }} />
+              <div className="h-4 bg-primary" style={{ width: l.$value }} />
             </div>
           ))}
         </div>
@@ -251,4 +257,4 @@ export const Shadows: Story = {
   ),
 };
 
-export const ColorsDark: Story = { ...Colors, globals: { theme: 'dark' } };
+export const ColorsDark: Story = { ...Colors, tags: ['!autodocs'], globals: { theme: 'dark' } };

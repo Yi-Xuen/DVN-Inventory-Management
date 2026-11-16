@@ -20,7 +20,7 @@ export function ThemeScope({ children }: { children: React.ReactNode }) {
               onClick={() => setMode(m)}
               aria-pressed={mode === m}
               className={`label-3 rounded-ds-1 px-3 py-2 capitalize ${
-                mode === m ? "bg-brand text-fg-on-brand" : "text-fg-subtle"
+                mode === m ? "bg-primary text-fg-on-primary" : "text-fg-subtle"
               }`}
             >
               {m}

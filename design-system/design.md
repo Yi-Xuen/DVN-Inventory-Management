@@ -1,32 +1,91 @@
 # Design System: Foundations
 
 ## Decisions (designer)
-1. **Brand color:** `#0E2C22` (HSB 160/68/17), a deep forest green. One color supplied; no secondary.
+1. **Primary color:** `#0E2C22` (HSB 160/68/17), a deep forest green. One color supplied; no secondary.
 2. **Font:** Montserrat for headings and text (single family; weights 400, 600, 700).
 3. **Platform:** web app on mobile and desktop, so the type scale has mobile and desktop modes.
 
 Defaults used (not asked): light + dark themes; output in `design-system/`.
 
 ## Color
-Rules: brand is an 11-step scale (50 to 950) like the neutrals, at hue 160. Saturation rises from 5 to 68 and brightness falls from 99 to 10. The previous tones sit on the scale: light = 50, bright = 500 (4.5:1 on dark surfaces), dark = 700, and the chosen colour #0E2C22 = 900. Neutrals use hue 39 (warm tan, taken from #C6A463 with its saturation cut from 50 to a 2-10 ramp), brightness 98 to 8. Contrast re-checked: text 17.4:1, subtle text 6.0:1 light and 7.5:1 dark.
+Two levels of colour tokens. Components use semantic tokens only, never primitives.
 
-| Token | Hex | HSB |
+### Level 1: primitives
+Raw colours named by hue and step. Six palettes, each with the same 11 steps (50, 100 to 900, 950), plus `white`. Values are set in HSB: the hue is fixed per palette, saturation rises and brightness falls as the step number goes up.
+
+| Palette | Notes | 50 / 500 / 700 / 900 / 950 |
 |---|---|---|
-| brand.50 / 500 / 700 / 900 / 950 | #F0FCF8 / #469E81 / #1D5C47 / #0E2C22 / #081A14 | 160/5/99 / 160/56/62 / 160/68/36 / 160/68/17 / 160/68/10 |
-| neutral.50 / 950 | #FAF8F5 / #141412 | 39/2/98 / 39/10/8 |
-| chart.blue (base / bright) | #5495C7 / #75A9D1 | 206/58/78 / 206/44/82 |
-| chart.purple (base / bright) | #BB6BD6 / #C27ED9 | 285/50/84 / 285/42/85 |
-| success (base / bright / dark) | #072B1F / #199E72 / #106146 | hue 160, S84 |
-| warning (base / dark) | #DEB459 / #614E27 | 41/60/87 |
-| danger (base / dark) | #E36B5B / #7A3A31 | 7/60/89 |
+| green | Hue 160. Primary and success | #F0FCF8 / #469E81 / #1D5C47 / #0E2C22 / #081A14 |
+| neutral | Hue 39, saturation 2 to 10 | #FAF8F5 / #807D78 / #474542 / #21201E / #141412 |
+| yellow | Hue 41. Warning | #FCF6E8 / #DEB459 / #8C7238 / #42361B / #292110 |
+| red | Hue 7. Danger | #FCEBE8 / #E36B5B / #9E4A3F / #522621 / #331814 |
+| blue | Hue 206. Chart fill | #EDF6FC / #5495C7 / #2E5C80 / #183042 / #0F1D29 |
+| purple | Hue 285. Chart fill | #F9F0FC / #BB6BD6 / #793E8C / #40214A / #27142E |
 
-**Chart colors:** `chart.blue` and `chart.purple` follow the hues of #95CAF3 (206) and #DC95F3 (285). Semantic `chart.*` uses `base` in light mode and `bright` in dark mode. Light-mode tones are deeper than the reference pastels so fills reach about 3:1 on the page (blue 3.0:1, purple 3.2:1). Dark-mode tones are 5.6 to 7.3:1 on the dark surfaces.
+- **Green** holds both the primary colour and success. The chosen colour #0E2C22 is `green.900`. There is no separate primary or success palette; the earlier, more saturated success tones (hue 160, S84) were replaced by green steps.
+- **Yellow, red, blue and purple** were grown into full scales around the tones already in use, which sit on the scale unchanged: yellow 50 / 500 / 800, red 50 / 500 / 800, blue 400 / 500, purple 400 / 500.
+- `white` (#FFFFFF) is a single colour outside the scales, so every palette keeps the same number of steps.
 
-**Interface palette notes:** the brand is green, so success overlaps the brand hue. Per the overlap rule, success keeps hue 160 and brightness and raises saturation from 68 to 84. Warning and danger do not overlap and use the course defaults. Brand surfaces and borders use `brand.700`. Brand text and icons use `brand.900` in light mode and `brand.500` in dark mode.
+### Level 2: semantic
+Four groups: background, border, icon and text. Each token aliases a primitive for light and dark mode. The shared attribute words are default, subtle, strong, primary, success, warning, danger, disabled and inverse. Chart fills are background tokens (`bg-chart-blue`, `bg-chart-purple`).
 
-**Contrast:** all 36 checked pairs pass WCAG, with no failures to fix. Text default is 17.5:1 on the page in both modes. Subtle text is 6.1:1 in light and 7.6:1 in dark. Tone pairs (dark on light) are 7.0 to 7.4:1.
+**Background (`bg-*`)**
 
-Semantic tokens (text, bg, border, icon) alias primitives in `semantic.json`, with light and dark values. Think low contrast and high contrast, not light and dark.
+| Token | Light | Dark |
+|---|---|---|
+| bg-page | neutral.50 | neutral.950 |
+| bg-surface | white | neutral.900 |
+| bg-surface-raised | neutral.200 | neutral.800 |
+| bg-primary | green.700 | green.700 |
+| bg-primary-hover | green.800 | green.800 |
+| bg-primary-active | green.900 | green.900 |
+| bg-disabled | neutral.300 | neutral.800 |
+| bg-success | green.50 | green.800 |
+| bg-warning | yellow.50 | yellow.900 |
+| bg-danger | red.50 | red.900 |
+| bg-chart-blue | blue.500 | blue.400 |
+| bg-chart-purple | purple.500 | purple.400 |
+
+**Border (`border-*`)**
+
+| Token | Light | Dark |
+|---|---|---|
+| border-default | neutral.300 | neutral.700 |
+| border-subtle | neutral.200 | neutral.800 |
+| border-strong | neutral.400 | neutral.600 |
+| border-primary | green.700 | green.700 |
+| border-success | green.700 | green.500 |
+| border-warning | yellow.500 | yellow.500 |
+| border-danger | red.500 | red.500 |
+
+**Icon (`icon-*`)**
+
+| Token | Light | Dark |
+|---|---|---|
+| icon-default | neutral.950 | neutral.50 |
+| icon-subtle | neutral.600 | neutral.400 |
+| icon-primary | green.900 | green.500 |
+| icon-success | green.700 | green.400 |
+| icon-warning | yellow.800 | yellow.500 |
+| icon-danger | red.800 | red.400 |
+
+**Text (`text-*`)**
+
+| Token | Light | Dark |
+|---|---|---|
+| text-default | neutral.950 | neutral.50 |
+| text-subtle | neutral.600 | neutral.400 |
+| text-disabled | neutral.400 | neutral.600 |
+| text-inverse | neutral.50 | neutral.950 |
+| text-primary | green.900 | green.500 |
+| text-on-primary | neutral.50 | neutral.50 |
+| text-success | green.700 | green.400 |
+| text-warning | yellow.800 | yellow.500 |
+| text-danger | red.800 | red.400 |
+
+**Contrast:** checked with the WCAG formula in both modes. Text default is 17.4:1 on the page. Subtle text is 6.0:1 light and 7.5:1 dark. Status text on its own tint is 7.3 to 7.5:1 in light mode and 4.8 to 6.1:1 in dark mode. In dark mode the warning and danger tints moved to the 900 step and danger text to red.400, because the previous pairs were below 4.5:1 (4.1 and 2.6). Chart fills are 3.0 and 3.2:1 on the light page. Known gap, unchanged: `border-strong` is about 2.5:1 on surfaces, under the 3:1 target for non-text UI.
+
+Think low contrast and high contrast, not light and dark.
 
 ## Typography
 Montserrat: Regular 400, Semibold 600, Bold 700 only. Base is 16px (Body 2 and H4). Mobile uses ratio 1.2; desktop uses 1.333 for H1 and H2 (H3 to H5 are identical). Desktop is the 1.333 default for websites and can be tuned.
@@ -105,7 +164,7 @@ Color: `neutral.950` (#141412), never black. X offset and spread are 0. Each lev
 | shadow-5 | 16 / 32 | 14% / 28% | Modals |
 
 ## Resources used
-Palette: brand color supplied by the designer as hex (no inspo-page or Adobe wheel pairing recorded). Font: Montserrat chosen directly by the designer.
+Palette: primary color supplied by the designer as hex (no inspo-page or Adobe wheel pairing recorded). Font: Montserrat chosen directly by the designer.
 
 ## Governance
 - **MVP:** ship these foundations, then add tokens only for real use cases.
