@@ -28,6 +28,7 @@
 
 /* shell: full-bleed on phones, a phone-sized column on larger screens */
 .shell { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; }
+.proto-bar > span { flex: 1; }
 .proto-bar { width: 100%; max-width: 430px; display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); font: 400 var(--body-4-font-size)/var(--body-4-line-height) var(--font-text); color: var(--muted); }
 .proto-bar button { background: none; border: 1px solid var(--line); border-radius: var(--radius-full); padding: var(--space-1) var(--space-3); min-height: 32px; font: 600 var(--body-4-font-size)/var(--body-4-line-height) var(--font-text); color: var(--ink); cursor: pointer; }
 .phone { position: relative; width: 100%; max-width: 430px; flex: 1; background: var(--bg); display: grid; align-content: start; gap: var(--space-3);
@@ -136,11 +137,11 @@
 
 /* likelihood slider: three stops */
 .slider { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; touch-action: pan-y; cursor: pointer; }
-.slider::-webkit-slider-runnable-track { height: 6px; border-radius: var(--radius-1); background: linear-gradient(to right, var(--accent) var(--pos), var(--track) var(--pos)); }
+.slider::-webkit-slider-runnable-track { height: 6px; border-radius: var(--radius-1); background: linear-gradient(to right, var(--bg-brand) var(--pos), var(--track) var(--pos)); }
 .slider::-moz-range-track { height: 6px; border-radius: var(--radius-1); background: var(--track); }
-.slider::-moz-range-progress { height: 6px; border-radius: var(--radius-1); background: var(--accent); }
-.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: calc(var(--space-3) * -1); border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); box-shadow: var(--shadow-1); }
-.slider::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.slider::-moz-range-progress { height: 6px; border-radius: var(--radius-1); background: var(--bg-brand); }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: calc(var(--space-3) * -1); border-radius: 50%; background: var(--surface); border: 2px solid var(--bg-brand); box-shadow: var(--shadow-1); }
+.slider::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 2px solid var(--bg-brand); }
 .stops { display: flex; justify-content: space-between; margin-top: calc(var(--space-1) * -1); }
 .stops button { background: none; border: 0; padding: var(--space-2) var(--space-1); min-height: 36px; font: 400 var(--body-3-font-size)/var(--body-3-line-height) var(--font-text); color: var(--muted); cursor: pointer; }
 .stops button:first-child { text-align: left; }
@@ -181,7 +182,17 @@
 .screen-foot { position: sticky; bottom: 0; margin-top: auto; background: var(--bg); padding: var(--space-2) 0 calc(var(--space-3) + env(safe-area-inset-bottom)); }
 .screen .done { padding-top: 12vh; }
 
-.fabric-card { display: grid; gap: var(--space-1); flex: none; }
+.fabric-card { display: grid; gap: var(--space-1); flex: none; box-shadow: none; background-color: var(--bg-surface-raised); }
+.fabric-card .sup { color: var(--muted); }
 .fabric-card b { font: 700 var(--heading-4-font-size)/var(--heading-4-line-height) var(--font-text); }
 .screen-top { align-items: center; }
 .screen-top .close { margin-top: 0; }
+
+/* month / year dials (MonthYearPicker) */
+.wheels { position: relative; display: grid; grid-template-columns: 1fr 1fr; height: 220px; }
+.wheel-band { position: absolute; left: 0; right: 0; top: 88px; height: 44px; border-radius: var(--radius-2); background: var(--bg-surface-raised); pointer-events: none; }
+.wheel { position: relative; height: 220px; overflow-y: auto; scroll-snap-type: y mandatory; padding: 88px 0; scrollbar-width: none; overscroll-behavior: contain; outline-offset: -2px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 35%, #000 65%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 35%, #000 65%, transparent); }
+.wheel::-webkit-scrollbar { display: none; }
+.wheel-item { height: 44px; display: flex; align-items: center; justify-content: center; scroll-snap-align: center; cursor: pointer; font: 400 var(--body-2-font-size)/var(--body-2-line-height) var(--font-text); color: var(--muted); }
+.wheel-item.on { color: var(--ink); font-weight: 600; }

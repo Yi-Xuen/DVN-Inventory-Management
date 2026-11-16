@@ -24,7 +24,7 @@ export function SegmentedControl<T extends string>({ options, value, onChange, "
             aria-selected={on}
             onClick={() => onChange(o.value)}
             className={`label-3 min-h-11 cursor-pointer rounded-ds-2 border px-1 py-3 ${
-              on ? "border-line-strong bg-surface text-fg" : "border-transparent bg-transparent text-fg-subtle"
+              on ? "border-transparent bg-surface text-fg shadow-ds-1" : "border-transparent bg-transparent text-fg-subtle"
             }`}
           >
             {o.label}

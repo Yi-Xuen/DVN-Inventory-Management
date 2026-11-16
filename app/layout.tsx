@@ -5,8 +5,8 @@ import "./globals.css";
 
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "600", "700"], variable: "--font-montserrat" });
 
-// Follow the OS theme: the design-system tokens switch on [data-theme="dark"].
-const themeScript = `(function(){var m=matchMedia("(prefers-color-scheme: dark)");function s(){document.documentElement.dataset.theme=m.matches?"dark":"light"}s();m.addEventListener("change",s)})()`;
+// Follow the saved theme preference (default: OS theme): the design-system tokens switch on [data-theme="dark"].
+const themeScript = `(function(){var p="system";try{p=localStorage.getItem("theme-pref")||"system"}catch(e){}var m=matchMedia("(prefers-color-scheme: dark)");function s(){document.documentElement.dataset.theme=(p==="dark"||(p==="system"&&m.matches))?"dark":"light"}s();m.addEventListener("change",function(){if(p==="system")s()})})()`;
 
 export const metadata: Metadata = {
   title: "Fabric Stock · Prototype",

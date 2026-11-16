@@ -51,11 +51,11 @@
   --text-danger: var(--danger-dark);
   --bg-page: var(--neutral-50);
   --bg-surface: var(--neutral-0);
-  --bg-surface-raised: var(--neutral-100);
+  --bg-surface-raised: var(--neutral-200);
   --bg-brand: var(--brand-700);
   --bg-brand-hover: var(--brand-800);
   --bg-brand-active: var(--brand-900);
-  --bg-disabled: var(--neutral-200);
+  --bg-disabled: var(--neutral-300);
   --bg-success: var(--success-light);
   --bg-warning: var(--warning-light);
   --bg-danger: var(--danger-light);
