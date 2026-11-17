@@ -71,19 +71,28 @@
   --bg-page: var(--neutral-50);
   --bg-surface: var(--white);
   --bg-surface-raised: var(--neutral-200);
+  --bg-surface-overlay: var(--white);
+  --bg-surface-hover: var(--neutral-100);
+  --bg-surface-pressed: var(--neutral-200);
   --bg-primary: var(--green-700);
   --bg-primary-hover: var(--green-800);
   --bg-primary-active: var(--green-900);
+  --bg-primary-subtle: var(--green-100);
   --bg-disabled: var(--neutral-300);
   --bg-success: var(--green-50);
   --bg-warning: var(--yellow-50);
   --bg-danger: var(--red-50);
+  --bg-danger-strong: var(--red-700);
+  --bg-danger-strong-hover: var(--red-800);
   --bg-chart-blue: var(--blue-500);
   --bg-chart-purple: var(--purple-500);
+  --bg-chart-green: var(--green-500);
+  --bg-chart-yellow: var(--yellow-600);
   --border-default: var(--neutral-300);
   --border-subtle: var(--neutral-200);
-  --border-strong: var(--neutral-400);
+  --border-strong: var(--neutral-500);
   --border-primary: var(--green-700);
+  --border-focus: var(--green-700);
   --border-success: var(--green-700);
   --border-warning: var(--yellow-500);
   --border-danger: var(--red-500);
@@ -98,26 +107,41 @@
   --text-disabled: var(--neutral-400);
   --text-inverse: var(--neutral-50);
   --text-primary: var(--green-900);
+  --text-link: var(--green-700);
   --text-on-primary: var(--neutral-50);
+  --text-on-danger: var(--neutral-50);
   --text-success: var(--green-700);
   --text-warning: var(--yellow-800);
   --text-danger: var(--red-800);
   --text-danger-bright: var(--red-700);
+  --text-on-chart: var(--neutral-950);
 }
 
 [data-theme="dark"] {
   --bg-page: var(--neutral-950);
   --bg-surface: var(--neutral-900);
   --bg-surface-raised: var(--neutral-800);
+  --bg-surface-overlay: var(--neutral-800);
+  --bg-surface-hover: var(--neutral-800);
+  --bg-surface-pressed: var(--neutral-700);
+  --bg-primary: var(--green-500);
+  --bg-primary-hover: var(--green-400);
+  --bg-primary-active: var(--green-300);
+  --bg-primary-subtle: var(--green-900);
   --bg-disabled: var(--neutral-800);
   --bg-success: var(--green-800);
   --bg-warning: var(--yellow-900);
   --bg-danger: var(--red-900);
+  --bg-danger-strong: var(--red-400);
+  --bg-danger-strong-hover: var(--red-300);
   --bg-chart-blue: var(--blue-400);
   --bg-chart-purple: var(--purple-400);
+  --bg-chart-green: var(--green-400);
+  --bg-chart-yellow: var(--yellow-500);
   --border-default: var(--neutral-700);
   --border-subtle: var(--neutral-800);
-  --border-strong: var(--neutral-600);
+  --border-primary: var(--green-500);
+  --border-focus: var(--green-400);
   --border-success: var(--green-500);
   --icon-default: var(--neutral-50);
   --icon-subtle: var(--neutral-400);
@@ -130,6 +154,9 @@
   --text-disabled: var(--neutral-600);
   --text-inverse: var(--neutral-950);
   --text-primary: var(--green-500);
+  --text-link: var(--green-400);
+  --text-on-primary: var(--neutral-950);
+  --text-on-danger: var(--neutral-950);
   --text-success: var(--green-400);
   --text-warning: var(--yellow-500);
   --text-danger: var(--red-400);
@@ -291,4 +318,14 @@
   --shadow-3: 0 12px 24px rgba(20, 20, 18, 0.18), 0 2px 4px rgba(20, 20, 18, 0.12);
   --shadow-4: 0 16px 32px rgba(20, 20, 18, 0.2), 0 2px 4px rgba(20, 20, 18, 0.06);
   --shadow-5: 0 24px 48px rgba(20, 20, 18, 0.24);
+}
+
+:root {
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  --color-overlay: rgba(20, 20, 18, 0.5);
+  --width-text: 640px;
+  --width-content: 1120px;
+  --width-app: 430px;
 }

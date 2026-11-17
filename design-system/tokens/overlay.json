@@ -1,0 +1,10 @@
+{
+  "color": {
+    "overlay": {
+      "$type": "color",
+      "$description": "neutral.950 at 50%, both modes. Scrims and text over photos.",
+      "$value": "{neutral.950}",
+      "alpha": 0.5
+    }
+  }
+}

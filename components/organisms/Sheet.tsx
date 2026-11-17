@@ -39,7 +39,7 @@ export function Sheet({ open, onClose, title, children, footer }: SheetProps) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-30 flex items-end justify-center md:items-center md:p-6">
-      <div aria-hidden="true" onClick={onClose} className="absolute inset-0 bg-[var(--scrim)]" />
+      <div aria-hidden="true" onClick={onClose} className="absolute inset-0 bg-[var(--color-overlay)]" />
       <div
         ref={panel}
         role="dialog"

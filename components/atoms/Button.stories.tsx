@@ -69,3 +69,21 @@ export const Loading: Story = {
 };
 
 export const LoadingSecondary: Story = { args: { variant: 'secondary', loading: true, children: 'Loading button' } };
+
+export const Tertiary: Story = { args: { variant: 'tertiary', fullWidth: false, children: 'Tertiary button' } };
+export const TertiaryHover: Story = { args: { variant: 'tertiary', fullWidth: false, children: 'Tertiary button' }, parameters: { pseudo: { hover: true } } };
+export const TertiaryDisabled: Story = { args: { variant: 'tertiary', fullWidth: false, disabled: true, children: 'Tertiary button' } };
+export const DangerSolid: Story = { args: { variant: 'danger-solid', children: 'Delete reservation' } };
+export const DangerSolidHover: Story = { args: { variant: 'danger-solid', children: 'Delete reservation' }, parameters: { pseudo: { hover: true } } };
+export const DarkTertiary: Story = { args: { variant: 'tertiary', fullWidth: false, children: 'Tertiary button' }, tags: ['!autodocs'], globals: { theme: 'dark' } };
+export const DarkDangerSolid: Story = { args: { variant: 'danger-solid', children: 'Delete reservation' }, tags: ['!autodocs'], globals: { theme: 'dark' } };
+/** Hierarchy: one primary, then secondary, then tertiary. */
+export const Hierarchy: Story = {
+  render: () => (
+    <div className="flex flex-col gap-3">
+      <Button>Reserve fabric</Button>
+      <Button variant="secondary">Save as draft</Button>
+      <Button variant="tertiary">Cancel</Button>
+    </div>
+  ),
+};

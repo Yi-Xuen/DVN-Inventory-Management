@@ -207,6 +207,34 @@ Use these when composing screens. They come from the Refactoring UI principles i
 
 **Empty, loading and error states are part of the design.** Every list and form needs all three, using `EmptyState`, `Skeleton`/`Spinner` and `Alert`/inline field errors, not blank space.
 
+## Changes applied after the audit (2026-11-17)
+Applied in tokens, theme and components. Everything below this section is the original audit, kept for the reasoning.
+
+**Colour (`semantic.json` and `tokens.css`)**
+- `border-strong` is now `neutral.500` in both modes (about 4:1 on surfaces).
+- Dark-mode primary: `bg-primary` `green.500`, hover `green.400`, pressed `green.300`, `border-primary` `green.500`, and `text-on-primary` `neutral.950`. Contrast on the dark page is 5.7:1.
+- New: `bg-surface-overlay`, `bg-surface-hover`, `bg-surface-pressed`, `bg-primary-subtle`, `bg-danger-strong`, `bg-danger-strong-hover`, `bg-chart-green`, `bg-chart-yellow`, `border-focus`, `text-link`, `text-on-danger`, `text-on-chart`.
+- Known gap: `bg-chart-yellow` is 2.83:1 on white in light mode (`yellow.600`); always pair it with a label. `bg-surface-pressed` in dark mode (`neutral.700`) is for `text-default`, not `text-subtle`.
+- Correction to finding 3: dark shadows do show where an element sits on a lighter surface (menus on `bg-surface`). They are invisible on `bg-page`. Depth for cards comes from the surface step; sheets and modals use `bg-surface-overlay`.
+
+**Other tokens**
+- `border-width-1/2/4` (`tokens/border.json`), `--color-overlay` (`tokens/overlay.json`), and `--width-text` (640px), `--width-content` (1120px), `--width-app` (430px) in `tokens/spacing.json`.
+- Tablet type: decided to keep two type modes. Mobile values apply below 1024px (tablet included); desktop heading sizes apply from `lg:`.
+
+**Tailwind utilities (`app/design-system/theme.css`)**
+`focus-ring` (2px `border-focus`, offset 2px) on every interactive element; `border-w-1/2/4`, `outline-w-2`; colour names `hover`, `pressed`, `overlay-surface`, `primary-subtle`, `danger-solid`, `line-focus`, `fg-link`, `chart-green`, `chart-yellow`.
+
+**Components**
+- `Button`: new `tertiary` (text only) and `danger-solid` (final destructive confirmation only). Outlined and tertiary hover use `bg-surface-hover` and `bg-surface-pressed`. `sm` is 44px on phones, 40px from `lg:`.
+- `IconButton`: same hover tokens and 44px touch target.
+- `Card` link, `ListRow`: hover, pressed and focus-ring states.
+- `TextField`, `Select`, `NumberInput`: focus ring and hover border.
+- `NavItem`: active item uses `bg-primary-subtle` from `lg:`.
+- `app/globals.css`: legacy aliases (`--bg`, `--ink`, `--muted`, `--line`, `--card-line`, `--track`, `--neg`, `--c-*`, `--scrim`) removed; the prototype CSS now uses semantic tokens. `Sheet` uses `--color-overlay`.
+- Stories added: Button tertiary, danger-solid, hierarchy and dark states; Card link hover, pressed and dark hover.
+
+**Still open:** the duplicate `dvn-inventory-management/` folder, Mobile/Tablet/Desktop viewport stories for atoms and molecules, dark stories for Divider, Icon, Label, Skeleton, Spinner and ThemeToggle, other 32px/40px controls (Alert dismiss, Avatar), and the missing Table, Tabs, Dialog and Tooltip components.
+
 ## Audit findings (2026-11-17)
 Source is largely adopted: components contain no raw hex, no off-grid spacing, no arbitrary px values, and only weights 400 to 700. The items below are what is left, ranked by impact on how good the UI looks and works. Contrast figures are WCAG ratios (light / dark).
 

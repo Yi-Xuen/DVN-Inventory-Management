@@ -24,3 +24,8 @@ export const Link: Story = {
 };
 
 export const Dark: Story = { ...Default, tags: ['!autodocs'], globals: { theme: 'dark' } };
+
+// Link cards have hover, pressed and focus states (forced here with storybook-addon-pseudo-states).
+export const LinkHover: Story = { ...Link, parameters: { pseudo: { hover: true } } };
+export const LinkPressed: Story = { ...Link, parameters: { pseudo: { hover: true, active: true } } };
+export const LinkDarkHover: Story = { ...Link, parameters: { pseudo: { hover: true } }, tags: ['!autodocs'], globals: { theme: 'dark' } };

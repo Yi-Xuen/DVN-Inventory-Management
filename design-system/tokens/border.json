@@ -1,0 +1,19 @@
+{
+  "border-width": {
+    "1": {
+      "$type": "dimension",
+      "$value": "1px",
+      "$description": "Default"
+    },
+    "2": {
+      "$type": "dimension",
+      "$value": "2px",
+      "$description": "Emphasis, focus ring, selected"
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": "4px",
+      "$description": "Accent borders"
+    }
+  }
+}

@@ -6,7 +6,7 @@ export function Spinner({ size = "md", label = "Loading", className = "" }: { si
     <span
       role="status"
       aria-label={label}
-      className={`inline-block animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none ${SIZES[size]} ${className}`}
+      className={`inline-block animate-spin rounded-full border-w-2 border-current border-t-transparent motion-reduce:animate-none ${SIZES[size]} ${className}`}
     />
   );
 }

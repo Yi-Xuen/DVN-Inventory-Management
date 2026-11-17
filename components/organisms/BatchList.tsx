@@ -50,10 +50,10 @@ export function BatchList({ batches, onSelect, selected, name = "batch" }: Batch
             </span>
           </>
         );
-        const box = `grid gap-2 rounded-ds-2 border bg-surface p-3 ${on ? "border-line-primary outline-2 -outline-offset-2 outline-line-primary" : "border-line"}`;
+        const box = `grid gap-2 rounded-ds-2 border bg-surface p-3 ${on ? "border-line-primary outline-w-2 -outline-offset-2 outline-line-primary" : "border-line"}`;
         if (!onSelect) return <div key={b.code} role="listitem" className={box}>{body}</div>;
         return (
-          <label key={b.code} className={`${box} ${status === "used" ? "cursor-not-allowed opacity-50" : "cursor-pointer"} has-focus-visible:outline-2 has-focus-visible:outline-fg-primary`}>
+          <label key={b.code} className={`${box} ${status === "used" ? "cursor-not-allowed opacity-50" : "cursor-pointer"} has-focus-visible:outline-w-2 has-focus-visible:outline-line-focus`}>
             <input type="radio" name={name} value={b.code} checked={on} disabled={status === "used"} onChange={() => onSelect(b.code)} className="sr-only" />
             {body}
           </label>

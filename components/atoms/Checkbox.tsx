@@ -41,7 +41,7 @@ export function Checkbox({ indeterminate = false, invalid, label, description, c
       />
       <span
         aria-hidden="true"
-        className={`pointer-events-none size-full rounded-ds-1 border bg-surface peer-checked:border-transparent peer-checked:bg-primary peer-indeterminate:border-transparent peer-indeterminate:bg-primary peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-line-primary peer-disabled:opacity-35 ${
+        className={`pointer-events-none size-full rounded-ds-1 border bg-surface peer-checked:border-transparent peer-checked:bg-primary peer-indeterminate:border-transparent peer-indeterminate:bg-primary peer-focus-visible:outline-w-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-line-primary peer-disabled:opacity-35 ${
           invalid ? "border-line-danger" : "border-line-strong"
         }`}
       />

@@ -36,7 +36,7 @@ export function ListRow({ title, subtitle, leading, value, trailing, href, class
   );
   const base = `flex min-h-14 flex-wrap items-center gap-x-3 gap-y-2 py-3 md:flex-nowrap ${className}`;
   return href !== undefined ? (
-    <a href={href} className={`${base} cursor-pointer outline-offset-2 focus-visible:outline-2 focus-visible:outline-fg-primary active:bg-raised`}>{body}</a>
+    <a href={href} className={`${base} cursor-pointer focus-ring hover:bg-hover active:bg-pressed`}>{body}</a>
   ) : (
     <div className={base}>{body}</div>
   );

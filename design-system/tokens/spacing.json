@@ -56,5 +56,22 @@
       "$type": "dimension",
       "$value": "128px"
     }
+  },
+  "width": {
+    "text": {
+      "$type": "dimension",
+      "$value": "640px",
+      "$description": "Reading width, about 65 characters at Body 2"
+    },
+    "content": {
+      "$type": "dimension",
+      "$value": "1120px",
+      "$description": "Page content width on desktop"
+    },
+    "app": {
+      "$type": "dimension",
+      "$value": "430px",
+      "$description": "Phone-sized app column"
+    }
   }
 }

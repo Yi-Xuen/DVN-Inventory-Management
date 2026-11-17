@@ -24,7 +24,7 @@ export function ScanButton({ variant = "fab", label = "Scan QR", className = "",
     <button
       type={type}
       aria-label={variant === "full" ? undefined : label}
-      className={`inline-flex shrink-0 cursor-pointer items-center justify-center bg-primary text-fg-on-primary outline-offset-2 transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-fg-primary active:bg-primary-active ${VARIANTS[variant]} ${className}`}
+      className={`inline-flex shrink-0 cursor-pointer items-center justify-center bg-primary text-fg-on-primary transition-colors hover:bg-primary-hover focus-ring active:bg-primary-active ${VARIANTS[variant]} ${className}`}
       {...props}
     >
       <Icon icon={ScanBarcode} size={variant === "fab" ? 8 : 6} />

@@ -3,7 +3,7 @@ import { ArrowDown2 } from "iconsax-react";
 import { Label } from "./Label";
 
 const BOX =
-  "body-2 min-h-12 w-full rounded-ds-2 border bg-surface px-3 text-fg placeholder:text-fg-subtle focus:border-line-primary disabled:cursor-not-allowed disabled:bg-disabled disabled:text-fg-disabled";
+  "body-2 min-h-12 w-full rounded-ds-2 border bg-surface px-3 text-fg placeholder:text-fg-subtle focus-ring focus:border-line-focus enabled:hover:border-line-primary disabled:cursor-not-allowed disabled:bg-disabled disabled:text-fg-disabled";
 const border = (invalid?: boolean, muted?: boolean) =>
   invalid ? "border-line-danger" : muted ? "border-transparent bg-raised body-2-semibold" : "border-line-strong";
 

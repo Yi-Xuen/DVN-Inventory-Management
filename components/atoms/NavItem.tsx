@@ -18,8 +18,8 @@ export function NavItem({ icon, label, active = false, className = "", ...props 
   return (
     <a
       aria-current={active ? "page" : undefined}
-      className={`body-4-semibold flex min-h-14 flex-1 cursor-pointer flex-col items-center justify-center gap-1 rounded-ds-2 px-1 outline-offset-2 transition-colors focus-visible:outline-2 focus-visible:outline-fg-primary md:w-full md:flex-none md:px-0 lg:body-3-semibold lg:min-h-12 lg:flex-row lg:justify-start lg:gap-3 lg:px-3 ${
-        active ? "text-fg-primary lg:bg-raised" : "text-fg-subtle hover:text-fg lg:hover:bg-raised"
+      className={`body-4-semibold flex min-h-14 flex-1 cursor-pointer flex-col items-center justify-center gap-1 rounded-ds-2 px-1 transition-colors focus-ring md:w-full md:flex-none md:px-0 lg:body-3-semibold lg:min-h-12 lg:flex-row lg:justify-start lg:gap-3 lg:px-3 ${
+        active ? "text-fg-primary lg:bg-primary-subtle" : "text-fg-subtle hover:text-fg lg:hover:bg-hover"
       } ${className}`}
       {...props}
     >
